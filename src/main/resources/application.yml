@@ -1,0 +1,18 @@
+spring:
+    application:
+        name: jobportal
+    datasource:
+        url: jdbc:postgresql://127.0.0.1:5432/jobPortalSpring
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+    jackson:
+        default-property-inclusion: NON_NULL
+springfox:
+    documentation:
+        swagger-ui:
+            enabled: true
+logging:
+    level:
+        org:
+        org.springframework.security: TRACE
