@@ -16,7 +16,8 @@ public class UserProfileResponse {
   private String nik;
   private String fullName;
   private String phoneNumber;
-  private String dateBirth;
+  private String dateOfBirth;
   private String address;
   private String city;
+  
 }

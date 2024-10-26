@@ -134,6 +134,8 @@ public class UserServiceImpl implements UserService {
             role = roleService.getEntityById(request.getRoleId());
         }
         user.setRole(role);
+        user.setIsActive(true);
+        user.setVersion(0L);
         user = repository.save(user);
         CreateUserProfileRequest createUserProfileRequest = new CreateUserProfileRequest();
         MappingUtil.map(request, createUserProfileRequest);
@@ -148,13 +150,16 @@ public class UserServiceImpl implements UserService {
         user.setIsActive(request.getIsActive());
         Role role = roleService.getEntityById(request.getRoleId());
         user.setRole(role);
-        repository.save(user);
+        user.setVersion(user.getVersion() + 1);
+        repository.saveAndFlush(user);
     }
 
     @Override
     public void delete(String id) {
         User user = getEntityById(id);
+        user.setVersion(user.getVersion() + 1);
         repository.delete(user);
+        profileService.deleteByUser(user);
     }
 }
 
