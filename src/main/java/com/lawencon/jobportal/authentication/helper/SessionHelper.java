@@ -2,7 +2,6 @@ package com.lawencon.jobportal.authentication.helper;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import com.lawencon.jobportal.authentication.model.UserPrinciple;
 import com.lawencon.jobportal.persistence.entity.User;
