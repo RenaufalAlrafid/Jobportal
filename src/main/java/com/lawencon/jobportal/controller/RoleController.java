@@ -14,7 +14,7 @@ import com.lawencon.jobportal.service.RoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
-@Tag(name = "Auth", description = "Auth API endpoint")
+@Tag(name = "Role", description = "Auth API endpoint")
 @RestController
 @RequestMapping({"/api/v1"})
 @AllArgsConstructor
