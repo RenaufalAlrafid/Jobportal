@@ -23,7 +23,7 @@ public class RoleController {
 
     @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
-        SessionHelper.validateRole("ADMIN");
+        SessionHelper.validateRole("SA");
         return ResponseEntity.ok(ResponseHelper.ok(roleService.getAll()));
     }
 
