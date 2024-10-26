@@ -41,4 +41,33 @@ public class StatusServiceImpl implements StatusService {
         return repository.findById(id).get();
     }
 
+    @Override
+    public List<ConstantResponse> getStatusVacancy() {
+        String[] codes = {"PD", "OG", "CT"};
+        List<ConstantResponse> responses = getAll().stream().filter(status -> {
+            for (String code : codes) {
+                if (code.equals(status.getCode())) {
+                    return true;
+                }
+            }
+            return false;
+        }).toList();
+
+        return responses;
+    }
+
+    @Override
+    public List<ConstantResponse> getStatusStage() {
+        String[] codes = {"LS", "TLS", "PEN"};
+        List<ConstantResponse> responses = getAll().stream().filter(status -> {
+            for (String code : codes) {
+                if (code.equals(status.getCode())) {
+                    return true;
+                }
+            }
+            return false;
+        }).toList();
+        return responses;
+    }
+
 }

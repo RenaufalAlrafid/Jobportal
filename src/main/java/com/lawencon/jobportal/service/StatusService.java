@@ -7,6 +7,10 @@ import com.lawencon.jobportal.persistence.entity.Status;
 public interface StatusService {
     List<ConstantResponse> getAll();
 
+    List<ConstantResponse> getStatusVacancy();
+
+    List<ConstantResponse> getStatusStage();
+
     Status getByCode(String code);
 
     Status getEntityById(String id);

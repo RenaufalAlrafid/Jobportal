@@ -26,5 +26,4 @@ public class RoleController {
         SessionHelper.validateRole("SA");
         return ResponseEntity.ok(ResponseHelper.ok(roleService.getAll()));
     }
-
 }
