@@ -28,5 +28,4 @@ public class Gender extends MasterEntity {
 
     @Column(name = "name", nullable = false, length = 40)
     private String name;
-
 }

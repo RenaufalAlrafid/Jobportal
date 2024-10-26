@@ -1,19 +1,22 @@
 package com.lawencon.jobportal.service;
 
-import com.lawencon.jobportal.model.request.user.CreateUserRequest;
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.user.LoginRequest;
 import com.lawencon.jobportal.model.request.user.RegisterUserRequest;
+import com.lawencon.jobportal.model.request.user.UpdateUserRequest;
+import com.lawencon.jobportal.model.response.user.ListUserResponse;
+import com.lawencon.jobportal.model.response.user.UserResponse;
 import com.lawencon.jobportal.persistence.entity.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.Optional;
-
-public interface UserService {
+public interface UserService
+        extends CrudService<User, RegisterUserRequest, UpdateUserRequest, UserResponse> {
     Optional<User> login(LoginRequest request);
 
-    void createUser(CreateUserRequest request);
+    Page<ListUserResponse> getAll(PagingRequest pagingRequest, String inquiry);
 
     UserDetailsService userDetailsService();
 
-    void registerUser(RegisterUserRequest request);
 }
