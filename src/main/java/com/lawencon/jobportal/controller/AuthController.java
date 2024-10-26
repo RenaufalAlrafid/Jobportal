@@ -24,8 +24,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<JwtAuthenticationResponse>> login(
             @RequestBody LoginRequest request) {
         return ResponseEntity.ok(ResponseHelper.ok(authenticationService.login(request)));
