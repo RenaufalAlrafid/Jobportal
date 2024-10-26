@@ -19,11 +19,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping({"/api/v1"})
 @AllArgsConstructor
 public class RoleController {
-    private final RoleService roleService;
+    private final RoleService service;
 
     @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
         SessionHelper.validateRole("SA");
-        return ResponseEntity.ok(ResponseHelper.ok(roleService.getAll()));
+        return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
     }
 }
