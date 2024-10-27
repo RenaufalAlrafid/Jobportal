@@ -14,16 +14,22 @@ import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.model.request.CreateMasterRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
+import com.lawencon.jobportal.model.request.specification.CreateJobSpec;
+import com.lawencon.jobportal.model.request.specification.CreateSpecificationRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
+import com.lawencon.jobportal.model.response.job.JobResponse;
+import com.lawencon.jobportal.model.response.specifocation.SpecificationResponse;
 import com.lawencon.jobportal.persistence.entity.Job;
 import com.lawencon.jobportal.persistence.repository.JobRepository;
 import com.lawencon.jobportal.service.JobService;
+import com.lawencon.jobportal.service.SpecificationService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class JobServiceImpl implements JobService {
   private final JobRepository repository;
+  private final SpecificationService specificationService;
 
   private void validationCode(String code) {
     Optional<Job> location = repository.findByCode(code);
@@ -42,14 +48,17 @@ public class JobServiceImpl implements JobService {
   }
 
   @Override
-  public ConstantResponse getByid(String id) {
+  public JobResponse getByid(String id) {
     Job job = getEntityById(id);
-    ConstantResponse response = new ConstantResponse();
+    JobResponse response = new JobResponse();
     response.setId(id);
     response.setCode(job.getCode());
     response.setName(job.getName());
     response.setVersion(job.getVersion());
     response.setIsActive(job.getIsActive());
+    List<SpecificationResponse> specificationResponses =
+        specificationService.getAllByJobId(job.getId());
+    response.setSpecifications(specificationResponses);
     return response;
   }
 
@@ -107,5 +116,14 @@ public class JobServiceImpl implements JobService {
     }).toList();
 
     return new PageImpl<>(response, pageRequest, jobResponse.getTotalElements());
+  }
+
+  @Override
+  public void createSpec(CreateJobSpec request) {
+    Job job = getEntityById(request.getId());
+    CreateSpecificationRequest spec = new CreateSpecificationRequest();
+    spec.setJob(job);
+    spec.setSpecification(request.getSpecification());
+    specificationService.create(spec);
   }
 }
