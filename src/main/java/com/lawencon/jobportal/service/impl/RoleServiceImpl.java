@@ -20,9 +20,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<ConstantResponse> getAll() {
         List<Role> roles = repository.findAll();
-        List<ConstantResponse> responses = roles.stream()
-                .map(role -> new ConstantResponse(role.getId(), role.getCode(), role.getName()))
-                .toList();
+        List<ConstantResponse> responses =
+                roles.stream().map(role -> new ConstantResponse(role.getId(), role.getCode(),
+                        role.getName(), role.getVersion(), role.getIsActive())).toList();
         return responses;
     }
 

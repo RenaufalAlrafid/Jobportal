@@ -20,9 +20,11 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public List<ConstantResponse> getAll() {
         List<Status> statuses = repository.findAll();
-        List<ConstantResponse> responses = statuses.stream().map(
-                status -> new ConstantResponse(status.getId(), status.getCode(), status.getName()))
-                .toList();
+        List<ConstantResponse> responses =
+                statuses.stream()
+                        .map(status -> new ConstantResponse(status.getId(), status.getCode(),
+                                status.getName(), status.getVersion(), status.getIsActive()))
+                        .toList();
         return responses;
     }
 

@@ -20,9 +20,10 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public List<ConstantResponse> getAll() {
         List<Experience> experiences = repository.findAll();
-        List<ConstantResponse> responses =
-                experiences.stream().map(experience -> new ConstantResponse(experience.getId(),
-                        experience.getCode(), experience.getName())).toList();
+        List<ConstantResponse> responses = experiences.stream()
+                .map(experience -> new ConstantResponse(experience.getId(), experience.getCode(),
+                        experience.getName(), experience.getVersion(), experience.getIsActive()))
+                .toList();
         return responses;
     }
 

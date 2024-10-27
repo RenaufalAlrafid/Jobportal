@@ -20,9 +20,11 @@ public class GenderServiceImpl implements GenderService {
     @Override
     public List<ConstantResponse> getAll() {
         List<Gender> genders = repository.findAll();
-        List<ConstantResponse> responses = genders.stream().map(
-                gender -> new ConstantResponse(gender.getId(), gender.getCode(), gender.getName()))
-                .toList();
+        List<ConstantResponse> responses =
+                genders.stream()
+                        .map(gender -> new ConstantResponse(gender.getId(), gender.getCode(),
+                                gender.getName(), gender.getVersion(), gender.getIsActive()))
+                        .toList();
         return responses;
     }
 

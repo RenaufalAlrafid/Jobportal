@@ -22,7 +22,8 @@ public class EmploymentTypeServiceImpl implements EmploymentTypeService {
         List<EmploymentType> employmentTypes = repository.findAll();
         List<ConstantResponse> responses = employmentTypes.stream()
                 .map(employmentType -> new ConstantResponse(employmentType.getId(),
-                        employmentType.getCode(), employmentType.getName()))
+                        employmentType.getCode(), employmentType.getName(),
+                        employmentType.getVersion(), employmentType.getIsActive()))
                 .toList();
         return responses;
     }
