@@ -6,13 +6,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
+import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.MappingUtil;
+import com.lawencon.jobportal.model.request.file.CreateFileResponse;
 import com.lawencon.jobportal.model.request.userprofile.CreateUserProfileRequest;
 import com.lawencon.jobportal.model.request.userprofile.UpdateUserProfileRequest;
+import com.lawencon.jobportal.model.response.file.FileResponse;
 import com.lawencon.jobportal.model.response.userprofile.UserProfileResponse;
+import com.lawencon.jobportal.persistence.entity.File;
 import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.entity.UserProfile;
 import com.lawencon.jobportal.persistence.repository.UserProfileRepository;
+import com.lawencon.jobportal.service.FileService;
 import com.lawencon.jobportal.service.GenderService;
 import com.lawencon.jobportal.service.UserProfileService;
 import lombok.AllArgsConstructor;
@@ -22,6 +27,7 @@ import lombok.AllArgsConstructor;
 public class UserProfileServiceImpl implements UserProfileService {
   private final UserProfileRepository repository;
   private final GenderService genderService;
+  private final FileService fileService;
 
   @Override
   public void create(CreateUserProfileRequest request) {
@@ -71,5 +77,26 @@ public class UserProfileServiceImpl implements UserProfileService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User profile not found");
     }
     return optional.get();
+  }
+
+  @Override
+  public void updateCv(String baseFile) {
+    CreateFileResponse file = new CreateFileResponse();
+    UserProfile profile = getEntityByUser();
+    file.setFile(baseFile);
+    String name = profile.getFullName() + CodeUtil.generateCode(4, "CV");
+    file.setName(name);
+    file.setExtension("pdf");
+    File newFile = fileService.create(file);
+    profile.setCvFile(newFile);
+    profile.setVersion(profile.getVersion() + 1);
+    repository.saveAndFlush(profile);
+  }
+
+  @Override
+  public FileResponse getCv() {
+    UserProfile profile = getEntityByUser();
+    FileResponse response = fileService.getById(profile.getCvFile().getId());
+    return response;
   }
 }
