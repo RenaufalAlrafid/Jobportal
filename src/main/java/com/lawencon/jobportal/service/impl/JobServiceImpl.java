@@ -15,74 +15,74 @@ import com.lawencon.jobportal.model.request.CreateMasterRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
-import com.lawencon.jobportal.persistence.entity.Location;
-import com.lawencon.jobportal.persistence.repository.LocationRepository;
-import com.lawencon.jobportal.service.LocationService;
+import com.lawencon.jobportal.persistence.entity.Job;
+import com.lawencon.jobportal.persistence.repository.JobRepository;
+import com.lawencon.jobportal.service.JobService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class LocationServiceImpl implements LocationService {
-  private final LocationRepository repository;
+public class JobServiceImpl implements JobService {
+  private final JobRepository repository;
 
   private void validationCode(String code) {
-    Optional<Location> location = repository.findByCode(code);
+    Optional<Job> location = repository.findByCode(code);
     if (location.isPresent()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location code already exist");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Job code already exist");
     }
   }
 
   @Override
-  public Location getEntityById(String id) {
-    Optional<Location> location = repository.findById(id);
-    if (!location.isPresent()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location not found");
+  public Job getEntityById(String id) {
+    Optional<Job> job = repository.findById(id);
+    if (!job.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Job not found");
     }
-    return location.get();
+    return job.get();
   }
 
   @Override
   public ConstantResponse getByid(String id) {
-    Location location = getEntityById(id);
+    Job job = getEntityById(id);
     ConstantResponse response = new ConstantResponse();
     response.setId(id);
-    response.setCode(location.getCode());
-    response.setName(location.getName());
-    response.setVersion(location.getVersion());
-    response.setIsActive(location.getIsActive());
+    response.setCode(job.getCode());
+    response.setName(job.getName());
+    response.setVersion(job.getVersion());
+    response.setIsActive(job.getIsActive());
     return response;
   }
 
   @Override
   public void create(CreateMasterRequest request) {
     validationCode(request.getCode());
-    Location location = new Location();
-    location.setCode(request.getCode());
-    location.setName(request.getName());
-    location.setIsActive(true);
-    location.setVersion(0L);
-    repository.save(location);
+    Job job = new Job();
+    job.setCode(request.getCode());
+    job.setName(request.getName());
+    job.setIsActive(true);
+    job.setVersion(0L);
+    repository.save(job);
   }
 
   @Override
   public void update(UpdateMasterRequest request) {
-    Location location = getEntityById(request.getId());
-    if (!location.getCode().equals(request.getCode())) {
+    Job job = getEntityById(request.getId());
+    if (!job.getCode().equals(request.getCode())) {
       validationCode(request.getCode());
     }
-    location.setCode(request.getCode());
-    location.setName(request.getName());
-    location.setIsActive(request.getIsActive());
-    location.setVersion(location.getVersion() + 1L);
-    repository.save(location);
+    job.setCode(request.getCode());
+    job.setName(request.getName());
+    job.setIsActive(request.getIsActive());
+    job.setVersion(job.getVersion() + 1L);
+    repository.save(job);
   }
 
   @Override
   public void delete(String id) {
-    Location location = getEntityById(id);
-    location.setIsActive(false);
-    location.setVersion(location.getVersion() + 1L);
-    repository.save(location);
+    Job job = getEntityById(id);
+    job.setIsActive(false);
+    job.setVersion(job.getVersion() + 1L);
+    repository.save(job);
   }
 
   @Override
@@ -90,13 +90,13 @@ public class LocationServiceImpl implements LocationService {
     PageRequest pageRequest = PageRequest.of(pagingRequest.getPage(), pagingRequest.getPageSize(),
         SpecificationHelper.createSort(pagingRequest.getSortBy()));
 
-    Specification<Location> spec = Specification.where(null);
+    Specification<Job> spec = Specification.where(null);
     if (inquiry != null && !inquiry.isBlank()) {
       spec = spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("name"), inquiry));
     }
 
-    Page<Location> locationResponse = repository.findAll(spec, pageRequest);
-    List<ConstantResponse> response = locationResponse.map(entity -> {
+    Page<Job> jobResponse = repository.findAll(spec, pageRequest);
+    List<ConstantResponse> response = jobResponse.map(entity -> {
       ConstantResponse res = new ConstantResponse();
       res.setId(entity.getId());
       res.setCode(entity.getCode());
@@ -105,8 +105,7 @@ public class LocationServiceImpl implements LocationService {
       res.setIsActive(entity.getIsActive());
       return res;
     }).toList();
-    return new PageImpl<>(response, pageRequest, locationResponse.getTotalElements());
+
+    return new PageImpl<>(response, pageRequest, jobResponse.getTotalElements());
   }
-
-
 }
