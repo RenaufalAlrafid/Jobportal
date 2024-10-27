@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
-@Tag(name = "Role")
+@Tag(name = "User Profile")
 @RestController
 @RequestMapping({"/api/v1"})
 @AllArgsConstructor

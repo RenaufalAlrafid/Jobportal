@@ -15,56 +15,56 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.PagingRequest;
-import com.lawencon.jobportal.model.request.user.RegisterUserRequest;
-import com.lawencon.jobportal.model.request.user.UpdateUserRequest;
+import com.lawencon.jobportal.model.request.vacancy.CreateVacancyRequest;
+import com.lawencon.jobportal.model.request.vacancy.UpdateVacancyRequest;
 import com.lawencon.jobportal.model.response.WebResponse;
-import com.lawencon.jobportal.model.response.user.ListUserResponse;
-import com.lawencon.jobportal.model.response.user.UserResponse;
-import com.lawencon.jobportal.service.UserService;
+import com.lawencon.jobportal.model.response.vacancy.ListVacancyResponse;
+import com.lawencon.jobportal.model.response.vacancy.VacancyResponse;
+import com.lawencon.jobportal.service.VacancyService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 
-@Tag(name = "User")
+@Tag(name = "Vacancy")
 @RestController
 @RequestMapping({"/api/v1"})
 @AllArgsConstructor
-public class UserController {
-  private final UserService service;
+public class VacancyController {
+  private final VacancyService service;
 
-  @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(PagingRequest pagingRequest,
+  @GetMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<WebResponse<List<ListVacancyResponse>>> getAll(PagingRequest pagingRequest,
       @RequestParam(required = false) String inquiry) {
     SessionHelper.validateRole("SA");
     return ResponseEntity
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
-  @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<WebResponse<UserResponse>> getById(@PathVariable String id) {
+  @GetMapping(value = "/vacancy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<WebResponse<VacancyResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
-  @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> add(@Valid @RequestBody RegisterUserRequest request) {
+  @PostMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> add(@Valid @RequestBody CreateVacancyRequest request) {
     SessionHelper.validateRole("SA");
     service.create(request);
-    return ResponseEntity.ok("User has been added successfully");
+    return ResponseEntity.ok("Vacancy has been added successfully");
   }
 
-  @PutMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateUserRequest request) {
+  @PutMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> edit(@Valid @RequestBody UpdateVacancyRequest request) {
     SessionHelper.validateRole("SA");
     service.update(request);
-    return ResponseEntity.ok("User has been Updated successfully");
+    return ResponseEntity.ok("Vacancy has been Updated successfully");
   }
 
-  @DeleteMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/vacancy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> delete(@PathVariable String id) {
     SessionHelper.validateRole("SA");
     service.delete(id);
-    return ResponseEntity.ok("User has been deleted successfully");
+    return ResponseEntity.ok("Vacancy has been deleted successfully");
   }
 
 }

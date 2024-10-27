@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE tb_jobs SET deleted_at = now() WHERE id=? AND version =?")
+@SQLDelete(sql = "UPDATE tb_jobs SET deleted_at = now() WHERE id= ? AND version = ?")
 @Where(clause = "deleted_at IS NULL")
 public class Job extends MasterEntity {
         @Column(name = "code", nullable = false)

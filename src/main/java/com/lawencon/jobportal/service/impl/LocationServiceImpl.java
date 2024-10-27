@@ -82,7 +82,7 @@ public class LocationServiceImpl implements LocationService {
     Location location = getEntityById(id);
     location.setIsActive(false);
     location.setVersion(location.getVersion() + 1L);
-    repository.save(location);
+    repository.delete(location);
   }
 
   @Override

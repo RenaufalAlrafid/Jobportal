@@ -97,7 +97,7 @@ public class JobServiceImpl implements JobService {
     Job job = getEntityById(id);
     job.setIsActive(false);
     job.setVersion(job.getVersion() + 1L);
-    repository.save(job);
+    repository.delete(job);
   }
 
   @Override
