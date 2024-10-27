@@ -1,12 +1,17 @@
 package com.lawencon.jobportal.service.impl;
 
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.ValidationUtil;
+import com.lawencon.jobportal.model.request.assign.AssignReportRequest;
 import com.lawencon.jobportal.model.request.assign.ChangeStatusAssignRequest;
 import com.lawencon.jobportal.model.request.assign.CreateAssignRequest;
+import com.lawencon.jobportal.model.response.File;
 import com.lawencon.jobportal.model.response.Assign.AssignResponse;
 import com.lawencon.jobportal.persistence.entity.Assign;
 import com.lawencon.jobportal.persistence.entity.AssignDetail;
@@ -22,6 +27,13 @@ import com.lawencon.jobportal.service.UserService;
 import com.lawencon.jobportal.service.VacancyService;
 import com.lawencon.jobportal.service.VacancyTrxService;
 import lombok.AllArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 @AllArgsConstructor
@@ -89,6 +101,43 @@ public class AssignServiceImpl implements AssignService {
   public Assign getEntityById(String id) {
     ValidationUtil.idIsExist(id, repository, "Assign");
     return repository.findById(id).get();
+  }
+
+  @Override
+  public File getReport() throws JRException {
+    File file = new File();
+    file.setFileName("Report Assign Vacancy");
+    file.setFileExt(".pdf");
+
+    List<Assign> assigns = repository.findAll();
+
+    List<AssignReportRequest> reportData = assigns.stream().map(assign -> {
+      AssignReportRequest request = new AssignReportRequest();
+      request.setId(assign.getId());
+      request.setCode(assign.getVacancy().getCode());
+      request.setTitle(assign.getVacancy().getJob().getName());
+      request.setType(assign.getVacancy().getType().getName());
+      request.setLoc(assign.getVacancy().getLocation().getName());
+      request.setLevel(assign.getVacancy().getLevel().getName());
+      request.setSalary(
+          assign.getVacancy().getSalaryStart() + " - " + assign.getVacancy().getSalaryEnd());
+      VacancyTrx trx = vacancyTrxService.getLastTrx(assign.getId());
+      request.setStatus(trx.getStatus().getName());
+      return request;
+    }).toList();
+
+    JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+    Map<String, Object> parameters = new HashMap<>();
+    parameters.put("param", "Semua Data");
+    parameters.put("tableData", dataSource.cloneDataSource());
+
+    InputStream filePath =
+        getClass().getClassLoader().getResourceAsStream("templates/vacancy.jrxml");
+    JasperReport report = JasperCompileManager.compileReport(filePath);
+    JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
+    byte[] bytes = JasperExportManager.exportReportToPdf(print);
+    file.setData(bytes);
+    return file;
   }
 
 }

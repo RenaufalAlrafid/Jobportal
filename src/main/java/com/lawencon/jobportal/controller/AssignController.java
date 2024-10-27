@@ -12,12 +12,14 @@ import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.assign.ChangeStatusAssignRequest;
 import com.lawencon.jobportal.model.request.assign.CreateAssignRequest;
+import com.lawencon.jobportal.model.response.File;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.model.response.Assign.AssignResponse;
 import com.lawencon.jobportal.service.AssignService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
 
 
 @Tag(name = "Assign", description = "Auth API endpoint")
@@ -43,6 +45,11 @@ public class AssignController {
   public ResponseEntity<String> add(@Valid @RequestBody ChangeStatusAssignRequest request) {
     service.changeStatus(request);
     return ResponseEntity.ok("Vacancy Status has been Updated successfully");
+  }
+
+  @GetMapping(value = "/assign/report", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<WebResponse<File>> generateReport() throws JRException {
+    return ResponseEntity.ok(ResponseHelper.ok(service.getReport()));
   }
 
 }

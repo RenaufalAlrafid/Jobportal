@@ -120,4 +120,6 @@ public class VacancyServiceImpl implements VacancyService {
     }).toList();
     return new PageImpl<>(responses, pageRequest, vacancyResponse.getTotalElements());
   }
+
+
 }
