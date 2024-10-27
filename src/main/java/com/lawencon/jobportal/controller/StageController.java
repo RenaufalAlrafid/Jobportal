@@ -13,7 +13,7 @@ import com.lawencon.jobportal.service.StageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
-@Tag(name = "Stage", description = "Auth API endpoint")
+@Tag(name = "Stage", description = "Stage API endpoint")
 @RestController
 @RequestMapping({"/api/v1"})
 @AllArgsConstructor
