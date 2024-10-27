@@ -14,9 +14,12 @@ import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.model.request.CreateMasterRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
+import com.lawencon.jobportal.model.request.description.CreateDescriptionRequest;
+import com.lawencon.jobportal.model.request.description.CreateJobDesc;
 import com.lawencon.jobportal.model.request.specification.CreateJobSpec;
 import com.lawencon.jobportal.model.request.specification.CreateSpecificationRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
+import com.lawencon.jobportal.model.response.description.DescriptionResponse;
 import com.lawencon.jobportal.model.response.job.JobResponse;
 import com.lawencon.jobportal.model.response.specifocation.SpecificationResponse;
 import com.lawencon.jobportal.persistence.entity.Job;
@@ -30,6 +33,7 @@ import lombok.AllArgsConstructor;
 public class JobServiceImpl implements JobService {
   private final JobRepository repository;
   private final SpecificationService specificationService;
+  private final DescriptionServiceImpl descriptionService;
 
   private void validationCode(String code) {
     Optional<Job> location = repository.findByCode(code);
@@ -59,6 +63,8 @@ public class JobServiceImpl implements JobService {
     List<SpecificationResponse> specificationResponses =
         specificationService.getAllByJobId(job.getId());
     response.setSpecifications(specificationResponses);
+    List<DescriptionResponse> descriptionResponses = descriptionService.getAllByJobId(job.getId());
+    response.setDescription(descriptionResponses);
     return response;
   }
 
@@ -125,5 +131,14 @@ public class JobServiceImpl implements JobService {
     spec.setJob(job);
     spec.setSpecification(request.getSpecification());
     specificationService.create(spec);
+  }
+
+  @Override
+  public void createDesc(CreateJobDesc request) {
+    Job job = getEntityById(request.getId());
+    CreateDescriptionRequest desc = new CreateDescriptionRequest();
+    desc.setJob(job);
+    desc.setDescription(request.getDescription());
+    descriptionService.create(desc);
   }
 }

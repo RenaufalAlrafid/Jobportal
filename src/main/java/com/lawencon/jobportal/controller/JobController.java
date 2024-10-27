@@ -17,11 +17,14 @@ import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.CreateMasterRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
+import com.lawencon.jobportal.model.request.description.CreateJobDesc;
+import com.lawencon.jobportal.model.request.description.UpdateDescriptionRequest;
 import com.lawencon.jobportal.model.request.specification.CreateJobSpec;
 import com.lawencon.jobportal.model.request.specification.UpdateSpecificationRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.model.response.job.JobResponse;
+import com.lawencon.jobportal.service.DescriptionService;
 import com.lawencon.jobportal.service.JobService;
 import com.lawencon.jobportal.service.SpecificationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +39,7 @@ import lombok.AllArgsConstructor;
 public class JobController {
   private final JobService service;
   private final SpecificationService specificationService;
+  private final DescriptionService descriptionService;
 
   @GetMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<List<ConstantResponse>>> getAll(PagingRequest pagingRequest,
@@ -90,6 +94,27 @@ public class JobController {
     SessionHelper.validateRole("SA");
     specificationService.delete(id);
     return ResponseEntity.ok("Specification has been deleted successfully");
+  }
+
+  @PostMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> createDesc(@Valid @RequestBody CreateJobDesc request) {
+    SessionHelper.validateRole("SA");
+    service.createDesc(request);
+    return ResponseEntity.ok("Description has been added successfully");
+  }
+
+  @PutMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> updateDesc(@Valid @RequestBody UpdateDescriptionRequest request) {
+    SessionHelper.validateRole("SA");
+    descriptionService.update(request);
+    return ResponseEntity.ok("Description has been added successfully");
+  }
+
+  @DeleteMapping(value = "/job/desc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> deleteDesc(@PathVariable String id) {
+    SessionHelper.validateRole("SA");
+    descriptionService.delete(id);
+    return ResponseEntity.ok("Description has been deleted successfully");
   }
 
 }

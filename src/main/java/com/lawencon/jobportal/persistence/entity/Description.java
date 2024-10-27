@@ -23,7 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE tb_job_descriptions SET deleted_at = now() WHERE id=? AND version =?")
 @Where(clause = "deleted_at IS NULL")
-public class Description extends MasterEntity {
+public class Description extends DeletableEntity {
         @ManyToOne
         @JoinColumn(name = "job_id", nullable = false)
         private Job job;

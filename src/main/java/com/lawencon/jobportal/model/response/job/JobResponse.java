@@ -1,6 +1,7 @@
 package com.lawencon.jobportal.model.response.job;
 
 import java.util.List;
+import com.lawencon.jobportal.model.response.description.DescriptionResponse;
 import com.lawencon.jobportal.model.response.specifocation.SpecificationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class JobResponse {
   private Long version;
   private Boolean isActive;
   private List<SpecificationResponse> specifications;
+  private List<DescriptionResponse> description;
 }
