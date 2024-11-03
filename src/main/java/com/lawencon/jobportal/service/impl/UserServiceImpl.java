@@ -19,9 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.authentication.model.UserPrinciple;
+import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.MappingUtil;
 import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.helper.ValidationUtil;
+import com.lawencon.jobportal.model.request.CreateOtpRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.user.LoginRequest;
 import com.lawencon.jobportal.model.request.user.RegisterUserRequest;
@@ -32,6 +34,8 @@ import com.lawencon.jobportal.model.response.user.UserResponse;
 import com.lawencon.jobportal.persistence.entity.Role;
 import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.repository.UserRepository;
+import com.lawencon.jobportal.service.EmailService;
+import com.lawencon.jobportal.service.OtpService;
 import com.lawencon.jobportal.service.RoleService;
 import com.lawencon.jobportal.service.UserProfileService;
 import com.lawencon.jobportal.service.UserService;
@@ -44,7 +48,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final RoleService roleService;
     private final UserProfileService profileService;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final OtpService otpService;
 
     @Override
     public Optional<User> login(LoginRequest request) {
@@ -59,7 +65,6 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong username or password");
         }
     }
-
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -141,6 +146,14 @@ public class UserServiceImpl implements UserService {
         MappingUtil.map(request, createUserProfileRequest);
         createUserProfileRequest.setUser(user);
         profileService.create(createUserProfileRequest);
+
+        CreateOtpRequest otp = new CreateOtpRequest();
+        otp.setUser(user);
+        otp.setOtp(CodeUtil.generateOtp());
+        otpService.create(otp);
+
+        emailService.sendHtmlEmail(request.getFullName(), request.getEmail(), otp.getOtp());
+
     }
 
     @Override
@@ -162,4 +175,3 @@ public class UserServiceImpl implements UserService {
         profileService.deleteByUser(user);
     }
 }
-

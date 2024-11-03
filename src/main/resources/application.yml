@@ -8,11 +8,28 @@ spring:
         driver-class-name: org.postgresql.Driver
     jackson:
         default-property-inclusion: NON_NULL
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: renaufalisnanto@gmail.com
+        password: jsyzmztlamnnagqn
+        default-encoding: UTF-8
+        properties:
+            smtp :
+                auth: true
+            mail :
+                smtp:
+                    starttls:
+                        enable: true
 springfox:
     documentation:
         swagger-ui:
             enabled: true
 logging:
     level:
-        org:
         org.springframework.security: TRACE

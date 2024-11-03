@@ -19,5 +19,17 @@ public class CodeUtil {
 
     return name + "-" + result.toString();
   }
+
+  public static String generateOtp() {
+
+    StringBuilder result = new StringBuilder(5);
+
+    for (int i = 0; i < 4; i++) {
+      int randomIndex = RANDOM.nextInt(ALPHANUMERIC.length());
+      result.append(ALPHANUMERIC.charAt(randomIndex));
+    }
+
+    return result.toString();
+  }
 }
 

@@ -5,9 +5,12 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+import com.lawencon.jobportal.config.RabbitMQConfig;
 import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.ValidationUtil;
+import com.lawencon.jobportal.model.request.CreateNotificationRequest;
 import com.lawencon.jobportal.model.request.assign.AssignReportRequest;
 import com.lawencon.jobportal.model.request.assign.ChangeStatusAssignRequest;
 import com.lawencon.jobportal.model.request.assign.CreateAssignRequest;
@@ -38,12 +41,13 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Service
 @AllArgsConstructor
 public class AssignServiceImpl implements AssignService {
-  private AssignRepository repository;
-  private VacancyService vacancyService;
-  private UserService userService;
-  private AssignDetailService assignDetailService;
-  private StatusService statusService;
-  private VacancyTrxService vacancyTrxService;
+  private final AssignRepository repository;
+  private final VacancyService vacancyService;
+  private final UserService userService;
+  private final AssignDetailService assignDetailService;
+  private final StatusService statusService;
+  private final VacancyTrxService vacancyTrxService;
+  private final RabbitTemplate rabbitTemplate;
 
   @Override
   public void create(CreateAssignRequest request) {
@@ -68,6 +72,12 @@ public class AssignServiceImpl implements AssignService {
     trx.setTrxNumber(CodeUtil.generateCode(4, "TRXA"));
     trx.setVersion(0L);
     vacancyTrxService.create(trx);
+
+    CreateNotificationRequest notif = new CreateNotificationRequest();
+    notif.setTitle("Lowongan Baru" + vacancy.getJob().getName());
+    notif.setMassage("Lowongan " + vacancy.getJob().getName() + " Telah Ditambahkan");
+    rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NOTIF, "assign.notif", notif);
+    System.out.println("yolo");
   }
 
   @Override
