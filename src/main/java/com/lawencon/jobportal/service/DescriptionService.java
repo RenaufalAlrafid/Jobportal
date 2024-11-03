@@ -1,9 +1,9 @@
 package com.lawencon.jobportal.service;
 
 import java.util.List;
-import com.lawencon.jobportal.model.request.description.CreateDescriptionRequest;
-import com.lawencon.jobportal.model.request.description.UpdateDescriptionRequest;
-import com.lawencon.jobportal.model.response.description.DescriptionResponse;
+import com.lawencon.jobportal.model.request.CreateDescriptionRequest;
+import com.lawencon.jobportal.model.request.UpdateDescriptionRequest;
+import com.lawencon.jobportal.model.response.DescriptionResponse;
 
 public interface DescriptionService {
   List<DescriptionResponse> getAllByJobId(String jobId);

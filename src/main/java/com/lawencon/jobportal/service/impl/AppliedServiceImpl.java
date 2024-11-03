@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.ValidationUtil;
-import com.lawencon.jobportal.model.request.applied.CreateAppliedRequest;
-import com.lawencon.jobportal.model.request.applied.CreateStageRequest;
-import com.lawencon.jobportal.model.request.applied.UpdateStageRequest;
-import com.lawencon.jobportal.model.response.applied.AppliedResponse;
-import com.lawencon.jobportal.model.response.applied.ListAppliedResponse;
-import com.lawencon.jobportal.model.response.applied.StageResponse;
+import com.lawencon.jobportal.model.request.CreateAppliedRequest;
+import com.lawencon.jobportal.model.request.CreateStageRequest;
+import com.lawencon.jobportal.model.request.UpdateStageRequest;
+import com.lawencon.jobportal.model.response.AppliedResponse;
+import com.lawencon.jobportal.model.response.ListAppliedResponse;
+import com.lawencon.jobportal.model.response.StageResponse;
 import com.lawencon.jobportal.persistence.entity.Applied;
 import com.lawencon.jobportal.persistence.entity.Assign;
 import com.lawencon.jobportal.persistence.entity.Stage;
@@ -29,11 +29,11 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AppliedServiceImpl implements AppliedService {
-  private AppliedRepository repository;
-  private AssignService assignService;
-  private StageService stageService;
-  private StatusService statusService;
-  private StageTrxService trxService;
+  private final AppliedRepository repository;
+  private final AssignService assignService;
+  private final StageService stageService;
+  private final StatusService statusService;
+  private final StageTrxService trxService;
 
   @Override
   public void create(CreateAppliedRequest data) {

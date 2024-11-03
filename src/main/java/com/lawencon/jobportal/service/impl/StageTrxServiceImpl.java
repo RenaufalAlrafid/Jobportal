@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class StageTrxServiceImpl implements StageTrxService {
-  private StageTrxRepository repository;
+  private final StageTrxRepository repository;
 
   @Override
   public void create(StageTrx data) {

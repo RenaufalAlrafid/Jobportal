@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AssignDetailServiceImpl implements AssignDetailService {
-  private AssignDetailRepository repository;
+  private final AssignDetailRepository repository;
 
   @Override
   public void create(AssignDetail data) {

@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class StatusServiceImpl implements StatusService {
-    StatusRepository repository;
+    private final StatusRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {

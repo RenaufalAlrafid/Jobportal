@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class EmploymentTypeServiceImpl implements EmploymentTypeService {
-    EmploymentTypeRepository repository;
+    private final EmploymentTypeRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {

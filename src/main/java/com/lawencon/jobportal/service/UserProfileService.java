@@ -1,9 +1,9 @@
 package com.lawencon.jobportal.service;
 
-import com.lawencon.jobportal.model.request.userprofile.CreateUserProfileRequest;
-import com.lawencon.jobportal.model.request.userprofile.UpdateUserProfileRequest;
-import com.lawencon.jobportal.model.response.file.FileResponse;
-import com.lawencon.jobportal.model.response.userprofile.UserProfileResponse;
+import com.lawencon.jobportal.model.request.CreateUserProfileRequest;
+import com.lawencon.jobportal.model.request.UpdateUserProfileRequest;
+import com.lawencon.jobportal.model.response.FileResponse;
+import com.lawencon.jobportal.model.response.UserProfileResponse;
 import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.entity.UserProfile;
 

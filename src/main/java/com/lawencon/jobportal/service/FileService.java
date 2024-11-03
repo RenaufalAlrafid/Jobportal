@@ -1,7 +1,7 @@
 package com.lawencon.jobportal.service;
 
-import com.lawencon.jobportal.model.request.file.CreateFileResponse;
-import com.lawencon.jobportal.model.response.file.FileResponse;
+import com.lawencon.jobportal.model.request.CreateFileResponse;
+import com.lawencon.jobportal.model.response.FileResponse;
 import com.lawencon.jobportal.persistence.entity.File;
 
 public interface FileService {

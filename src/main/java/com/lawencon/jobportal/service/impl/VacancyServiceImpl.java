@@ -11,11 +11,11 @@ import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.MappingUtil;
 import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.helper.ValidationUtil;
+import com.lawencon.jobportal.model.request.CreateVacancyRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
-import com.lawencon.jobportal.model.request.vacancy.CreateVacancyRequest;
-import com.lawencon.jobportal.model.request.vacancy.UpdateVacancyRequest;
-import com.lawencon.jobportal.model.response.vacancy.ListVacancyResponse;
-import com.lawencon.jobportal.model.response.vacancy.VacancyResponse;
+import com.lawencon.jobportal.model.request.UpdateVacancyRequest;
+import com.lawencon.jobportal.model.response.ListVacancyResponse;
+import com.lawencon.jobportal.model.response.VacancyResponse;
 import com.lawencon.jobportal.persistence.entity.EmploymentType;
 import com.lawencon.jobportal.persistence.entity.Experience;
 import com.lawencon.jobportal.persistence.entity.Job;
@@ -32,7 +32,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
-  private VacancyRepository repository;
+  private final VacancyRepository repository;
 
   private JobService jobService;
   private EmploymentTypeService typeService;

@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class StageServiceImpl implements StageService {
-    StageRepository repository;
+    private final StageRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {

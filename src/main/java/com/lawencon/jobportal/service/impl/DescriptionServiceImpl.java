@@ -3,9 +3,9 @@ package com.lawencon.jobportal.service.impl;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.ValidationUtil;
-import com.lawencon.jobportal.model.request.description.CreateDescriptionRequest;
-import com.lawencon.jobportal.model.request.description.UpdateDescriptionRequest;
-import com.lawencon.jobportal.model.response.description.DescriptionResponse;
+import com.lawencon.jobportal.model.request.CreateDescriptionRequest;
+import com.lawencon.jobportal.model.request.UpdateDescriptionRequest;
+import com.lawencon.jobportal.model.response.DescriptionResponse;
 import com.lawencon.jobportal.persistence.entity.Description;
 import com.lawencon.jobportal.persistence.repository.DescriptionRepository;
 import com.lawencon.jobportal.service.DescriptionService;
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class DescriptionServiceImpl implements DescriptionService {
-  private DescriptionRepository repository;
+  private final DescriptionRepository repository;
 
   @Override
   public List<DescriptionResponse> getAllByJobId(String jobId) {

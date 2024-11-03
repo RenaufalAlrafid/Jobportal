@@ -1,11 +1,11 @@
 package com.lawencon.jobportal.service;
 
 import java.util.List;
-import com.lawencon.jobportal.model.request.applied.CreateAppliedRequest;
-import com.lawencon.jobportal.model.request.applied.CreateStageRequest;
-import com.lawencon.jobportal.model.request.applied.UpdateStageRequest;
-import com.lawencon.jobportal.model.response.applied.AppliedResponse;
-import com.lawencon.jobportal.model.response.applied.ListAppliedResponse;
+import com.lawencon.jobportal.model.request.CreateAppliedRequest;
+import com.lawencon.jobportal.model.request.CreateStageRequest;
+import com.lawencon.jobportal.model.request.UpdateStageRequest;
+import com.lawencon.jobportal.model.response.AppliedResponse;
+import com.lawencon.jobportal.model.response.ListAppliedResponse;
 
 public interface AppliedService {
   void create(CreateAppliedRequest data);

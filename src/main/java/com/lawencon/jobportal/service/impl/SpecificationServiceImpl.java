@@ -3,9 +3,9 @@ package com.lawencon.jobportal.service.impl;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.ValidationUtil;
-import com.lawencon.jobportal.model.request.specification.CreateSpecificationRequest;
-import com.lawencon.jobportal.model.request.specification.UpdateSpecificationRequest;
-import com.lawencon.jobportal.model.response.specifocation.SpecificationResponse;
+import com.lawencon.jobportal.model.request.CreateSpecificationRequest;
+import com.lawencon.jobportal.model.request.UpdateSpecificationRequest;
+import com.lawencon.jobportal.model.response.SpecificationResponse;
 import com.lawencon.jobportal.persistence.entity.Specification;
 import com.lawencon.jobportal.persistence.repository.SpecificationRepository;
 import com.lawencon.jobportal.service.SpecificationService;
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class SpecificationServiceImpl implements SpecificationService {
-  private SpecificationRepository repository;
+  private final SpecificationRepository repository;
 
   @Override
   public List<SpecificationResponse> getAllByJobId(String jobId) {

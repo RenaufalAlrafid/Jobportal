@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class GenderServiceImpl implements GenderService {
-    GenderRepository repository;
+    private final GenderRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {

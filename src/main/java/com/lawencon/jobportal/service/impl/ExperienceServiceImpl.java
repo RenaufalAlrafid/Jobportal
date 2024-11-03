@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ExperienceServiceImpl implements ExperienceService {
-    ExperienceRepository repository;
+    private final ExperienceRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {

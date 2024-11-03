@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
-    RoleRepository repository;
+    private final RoleRepository repository;
 
     @Override
     public List<ConstantResponse> getAll() {
