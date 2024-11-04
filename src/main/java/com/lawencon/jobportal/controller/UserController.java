@@ -25,10 +25,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-
 @Tag(name = "User")
 @RestController
-@RequestMapping({"/api/v1"})
+@RequestMapping({ "/api/v1" })
 @AllArgsConstructor
 public class UserController {
   private final UserService service;

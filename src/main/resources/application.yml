@@ -33,3 +33,5 @@ springfox:
 logging:
     level:
         org.springframework.security: TRACE
+        org.springframework.validation: DEBUG
+        org.springframework.web: DEBUG

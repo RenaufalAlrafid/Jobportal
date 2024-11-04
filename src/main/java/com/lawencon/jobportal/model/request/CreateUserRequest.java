@@ -18,7 +18,6 @@ public class CreateUserRequest {
     private String username;
 
     @NotBlank(message = "Password cannot be empty")
-    @NotNull(message = "Password cannot be null")
     private String password;
 
     private String roleId;
