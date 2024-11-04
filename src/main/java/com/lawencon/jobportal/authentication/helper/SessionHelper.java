@@ -25,11 +25,11 @@ public class SessionHelper {
     public static void validateRole(String code) {
         User user = getLoginUser();
         if (getLoginUser() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You must login first");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must login first");
         }
         String role = user.getRole().getCode();
         if (!role.equals(code)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "You are not authorized to access this resource");
         }
     }

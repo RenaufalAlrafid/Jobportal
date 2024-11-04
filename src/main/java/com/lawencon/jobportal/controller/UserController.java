@@ -22,20 +22,22 @@ import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Tag(name = "User")
 @RestController
-@RequestMapping({ "/api/v1" })
+@RequestMapping({"/api/v1"})
 @AllArgsConstructor
 public class UserController {
   private final UserService service;
 
   @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(PagingRequest pagingRequest,
       @RequestParam(required = false) String inquiry) {
-    SessionHelper.validateRole("SA");
+    // SessionHelper.validateRole("SA");
     return ResponseEntity
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }

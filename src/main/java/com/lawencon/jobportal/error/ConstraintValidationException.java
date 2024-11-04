@@ -20,7 +20,7 @@ public class ConstraintValidationException extends ValidationException {
     private final Map<String, List<String>> errors;
 
     public ConstraintValidationException(Set<? extends ConstraintViolation<?>> constraintViolations,
-                                         Map<String, List<String>> errors) {
+            Map<String, List<String>> errors) {
         this.constraintViolations = Collections.unmodifiableSet(
                 Objects.requireNonNullElseGet(constraintViolations, Collections::emptySet));
         this.errors = Objects.requireNonNullElseGet(errors, HashMap::new);

@@ -1,5 +1,6 @@
 package com.lawencon.jobportal.model.request;
 
+import com.lawencon.jobportal.validation.annotation.NotBlankParam;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlankParam(fieldName = "username")
     private String username;
 
     @NotBlank(message = "Password cannot be empty")
