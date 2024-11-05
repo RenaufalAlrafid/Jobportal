@@ -57,65 +57,67 @@ public class JobController {
 
   @PostMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> add(@Valid @RequestBody CreateMasterRequest request) {
+  public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateMasterRequest request) {
     service.create(request);
-    return ResponseEntity.ok("Job has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Job has been added successfully"));
   }
 
   @PutMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateMasterRequest request) {
+  public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateMasterRequest request) {
     service.update(request);
-    return ResponseEntity.ok("Job has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Job has been Updated successfully"));
   }
 
   @DeleteMapping(value = "/job/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> delete(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
-    return ResponseEntity.ok("Job has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Job has been deleted successfully"));
   }
 
   @PostMapping(value = "/job/spec", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> createSpec(@Valid @RequestBody CreateJobSpec request) {
+  public ResponseEntity<WebResponse<String>> createSpec(@Valid @RequestBody CreateJobSpec request) {
     service.createSpec(request);
-    return ResponseEntity.ok("Specification has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Specification has been added successfully"));
   }
 
   @PutMapping(value = "/job/spec", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> updateSpec(@Valid @RequestBody UpdateSpecificationRequest request) {
+  public ResponseEntity<WebResponse<String>> updateSpec(
+      @Valid @RequestBody UpdateSpecificationRequest request) {
     specificationService.update(request);
-    return ResponseEntity.ok("Specification has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Specification has been added successfully"));
   }
 
   @DeleteMapping(value = "/job/spec/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> deleteSpec(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> deleteSpec(@PathVariable String id) {
     specificationService.delete(id);
-    return ResponseEntity.ok("Specification has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Specification has been deleted successfully"));
   }
 
   @PostMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> createDesc(@Valid @RequestBody CreateJobDesc request) {
+  public ResponseEntity<WebResponse<String>> createDesc(@Valid @RequestBody CreateJobDesc request) {
     SessionHelper.validateRole("SA");
     service.createDesc(request);
-    return ResponseEntity.ok("Description has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Description has been added successfully"));
   }
 
   @PutMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> updateDesc(@Valid @RequestBody UpdateDescriptionRequest request) {
+  public ResponseEntity<WebResponse<String>> updateDesc(
+      @Valid @RequestBody UpdateDescriptionRequest request) {
     descriptionService.update(request);
-    return ResponseEntity.ok("Description has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Description has been added successfully"));
   }
 
   @DeleteMapping(value = "/job/desc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> deleteDesc(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> deleteDesc(@PathVariable String id) {
     descriptionService.delete(id);
-    return ResponseEntity.ok("Description has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Description has been deleted successfully"));
   }
 
 }

@@ -47,23 +47,23 @@ public class LocationController {
 
   @PostMapping(value = "/location", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> add(@Valid @RequestBody CreateMasterRequest request) {
+  public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateMasterRequest request) {
     service.create(request);
-    return ResponseEntity.ok("Location has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Location has been added successfully"));
   }
 
   @PutMapping(value = "/location", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateMasterRequest request) {
+  public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateMasterRequest request) {
     service.update(request);
-    return ResponseEntity.ok("Location has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Location has been Updated successfully"));
   }
 
   @DeleteMapping(value = "/location/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> delete(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
-    return ResponseEntity.ok("Location has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Location has been deleted successfully"));
   }
 
 }

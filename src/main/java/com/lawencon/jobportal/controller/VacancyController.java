@@ -48,23 +48,23 @@ public class VacancyController {
 
   @PostMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> add(@Valid @RequestBody CreateVacancyRequest request) {
+  public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateVacancyRequest request) {
     service.create(request);
-    return ResponseEntity.ok("Vacancy has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Vacancy has been added successfully"));
   }
 
   @PutMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateVacancyRequest request) {
+  public ResponseEntity<WebResponse<String>> edit(
+      @Valid @RequestBody UpdateVacancyRequest request) {
     service.update(request);
-    return ResponseEntity.ok("Vacancy has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Vacancy has been Updated successfully"));
   }
 
   @DeleteMapping(value = "/vacancy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
-  public ResponseEntity<String> delete(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
-    return ResponseEntity.ok("Vacancy has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Vacancy has been deleted successfully"));
   }
-
 }

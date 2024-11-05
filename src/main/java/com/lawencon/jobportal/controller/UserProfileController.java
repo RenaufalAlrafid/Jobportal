@@ -35,9 +35,10 @@ public class UserProfileController {
 
 
   @PutMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateUserProfileRequest request) {
+  public ResponseEntity<WebResponse<String>> edit(
+      @Valid @RequestBody UpdateUserProfileRequest request) {
     service.update(request);
-    return ResponseEntity.ok("User Profile has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("User Profile has been Updated successfully"));
   }
 
   @GetMapping(value = "/profile/cv", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,9 +47,9 @@ public class UserProfileController {
   }
 
   @PostMapping(value = "/profile/cv", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> uploadCv(@Valid @RequestBody String request) {
+  public ResponseEntity<WebResponse<String>> uploadCv(@Valid @RequestBody String request) {
     service.updateCv(request);
-    return ResponseEntity.ok("CV has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("CV has been Updated successfully"));
   }
 
 }

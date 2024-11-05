@@ -33,6 +33,7 @@ import com.lawencon.jobportal.model.response.ListUserResponse;
 import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.persistence.entity.Role;
 import com.lawencon.jobportal.persistence.entity.User;
+import com.lawencon.jobportal.persistence.entity.UserProfile;
 import com.lawencon.jobportal.persistence.repository.UserRepository;
 import com.lawencon.jobportal.service.EmailService;
 import com.lawencon.jobportal.service.OtpService;
@@ -173,5 +174,10 @@ public class UserServiceImpl implements UserService {
         user.setVersion(user.getVersion() + 1);
         repository.delete(user);
         profileService.deleteByUser(user);
+    }
+
+    @Override
+    public UserProfile getUserProfile() {
+        return profileService.getEntityByUser();
     }
 }

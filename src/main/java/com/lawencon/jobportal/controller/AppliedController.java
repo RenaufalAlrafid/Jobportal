@@ -34,9 +34,10 @@ public class AppliedController {
 
   @PostMapping(value = "/applied", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"CDT"})
-  public ResponseEntity<String> create(@Valid @RequestBody CreateAppliedRequest request) {
+  public ResponseEntity<WebResponse<String>> create(
+      @Valid @RequestBody CreateAppliedRequest request) {
     service.create(request);
-    return ResponseEntity.ok("Applied has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Applied has been added successfully"));
   }
 
   @GetMapping(value = "/applied/assign/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,17 +48,19 @@ public class AppliedController {
 
   @PutMapping(value = "/applied/stage", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"HR"})
-  public ResponseEntity<String> updateStage(@Valid @RequestBody UpdateStageRequest request) {
+  public ResponseEntity<WebResponse<String>> updateStage(
+      @Valid @RequestBody UpdateStageRequest request) {
     service.updateStage(request);
-    return ResponseEntity.ok("Applied has been update successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Applied has been update successfully"));
   }
 
 
   @PostMapping(value = "/applied/stage", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"HR"})
-  public ResponseEntity<String> create(@Valid @RequestBody CreateStageRequest request) {
+  public ResponseEntity<WebResponse<String>> create(
+      @Valid @RequestBody CreateStageRequest request) {
     service.createStage(request);
-    return ResponseEntity.ok("Stage has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("Stage has been added successfully"));
   }
 
   @GetMapping(value = "/applied/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

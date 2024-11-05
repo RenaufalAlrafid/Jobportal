@@ -48,24 +48,24 @@ public class UserController {
   }
 
   @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> add(@Valid @RequestBody RegisterUserRequest request) {
+  public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody RegisterUserRequest request) {
     SessionHelper.validateRole("SA");
     service.create(request);
-    return ResponseEntity.ok("User has been added successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("User has been added successfully"));
   }
 
   @PutMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> edit(@Valid @RequestBody UpdateUserRequest request) {
+  public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateUserRequest request) {
     SessionHelper.validateRole("SA");
     service.update(request);
-    return ResponseEntity.ok("User has been Updated successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("User has been Updated successfully"));
   }
 
   @DeleteMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> delete(@PathVariable String id) {
+  public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     SessionHelper.validateRole("SA");
     service.delete(id);
-    return ResponseEntity.ok("User has been deleted successfully");
+    return ResponseEntity.ok(ResponseHelper.ok("User has been deleted successfully"));
   }
 
 }
