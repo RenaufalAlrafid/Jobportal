@@ -1,9 +1,7 @@
 package com.lawencon.jobportal.model.request;
 
 import java.util.List;
-
 import com.lawencon.jobportal.validation.annotation.NotNullParam;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PagingRequest {
-    @NotNullParam
+    @NotNullParam(fieldName = "Paging Size")
     private Integer page;
 
-    @NotNullParam
+    @NotNullParam(fieldName = "Page Size")
     private Integer pageSize;
 
     private List<SortBy> sortBy;

@@ -21,24 +21,18 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<WebResponse<Object>> handleValidationExceptions(
       MethodArgumentNotValidException ex) {
-    // Create a Map<String, List<String>> for errors
     Map<String, List<String>> errors = ex.getBindingResult().getFieldErrors().stream()
         .collect(Collectors.toMap(fieldError -> fieldError.getField(),
-            fieldError -> List.of(fieldError.getDefaultMessage()), // Wrap each error message in a
-                                                                   // List
-            (messages1, messages2) -> {
-              // Combine messages for the same field
+            fieldError -> List.of(fieldError.getDefaultMessage()), (messages1, messages2) -> {
               List<String> combinedMessages = new ArrayList<>(messages1);
               combinedMessages.addAll(messages2);
               return combinedMessages;
             }));
 
-    // Build the WebResponse with errors
     WebResponse<Object> errorResponse = WebResponse.builder().code(HttpStatus.BAD_REQUEST.value())
         .status(HttpStatus.BAD_REQUEST.getReasonPhrase()).errors(errors)
         .message("Validation failed").build();
 
-    // Return the response with a 400 Bad Request status
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
@@ -58,12 +52,13 @@ public class GlobalExceptionHandler {
   }
 
   // @ExceptionHandler(AuthorizationDeniedException.class)
-  // public ResponseEntity<WebResponse<Object>> handleAuthorizationDenied(HttpServletRequest request,
-  //     AuthorizationDeniedException ex) {
-  //   String message = "Access Denied: " + ex.getMessage();
-  //   WebResponse<Object> errorResponse = WebResponse.builder().code(HttpStatus.FORBIDDEN.value())
-  //       .status(HttpStatus.FORBIDDEN.getReasonPhrase()).message(message).build();
+  // public ResponseEntity<WebResponse<Object>> handleAuthorizationDenied(HttpServletRequest
+  // request,
+  // AuthorizationDeniedException ex) {
+  // String message = "Access Denied: " + ex.getMessage();
+  // WebResponse<Object> errorResponse = WebResponse.builder().code(HttpStatus.FORBIDDEN.value())
+  // .status(HttpStatus.FORBIDDEN.getReasonPhrase()).message(message).build();
 
-  //   return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+  // return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
   // }
 }

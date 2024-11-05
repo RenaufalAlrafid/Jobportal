@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotNull;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotNullParam {
-    String message() default "cannot be null";
+    String message() default "{fieldName} cannot be null";
 
     String fieldName() default "";
 

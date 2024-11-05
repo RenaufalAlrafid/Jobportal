@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.response.ConstantResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.RoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 
 @Tag(name = "Role", description = "Auth API endpoint")
@@ -22,8 +22,8 @@ public class RoleController {
     private final RoleService service;
 
     @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RolesAllowed({"SA"})
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
-        SessionHelper.validateRole("SA");
         return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
     }
 }

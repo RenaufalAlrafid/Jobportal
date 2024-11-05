@@ -1,7 +1,6 @@
 package com.lawencon.jobportal.model.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.lawencon.jobportal.validation.annotation.NotBlankParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,32 +11,26 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterUserRequest {
-    @NotNull(message = "Username cannot be null")
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlankParam(fieldName = "username")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty")
+    @NotBlankParam(fieldName = "password")
     private String password;
 
     private String roleId;
 
-    @NotNull(message = "Gender ID cannot be null")
-    @NotBlank(message = "Gender ID cannot be empty")
+    @NotBlankParam(fieldName = "gender")
     private String genderId;
 
-    @NotNull(message = "Email cannot be null")
-    @NotBlank(message = "Email cannot be empty")
+    @NotBlankParam(fieldName = "email")
     private String email;
 
-    @NotNull(message = "NIK cannot be null")
-    @NotBlank(message = "NIK cannot be empty")
+    @NotBlankParam(fieldName = "nik")
     private String nik;
 
-    @NotNull(message = "Full name cannot be null")
-    @NotBlank(message = "Full name cannot be empty")
+    @NotBlankParam(fieldName = "full name")
     private String fullName;
 
-    @NotNull(message = "Birth date cannot be null")
-    @NotBlank(message = "Birth date cannot be empty")
+    @NotBlankParam(fieldName = "birth date")
     private String birthDate;
 }

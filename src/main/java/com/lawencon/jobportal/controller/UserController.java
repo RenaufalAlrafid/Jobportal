@@ -35,8 +35,8 @@ public class UserController {
 
   @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA", "HR"})
-  public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(PagingRequest pagingRequest,
-      @RequestParam(required = false) String inquiry) {
+  public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(
+      @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
     // SessionHelper.validateRole("SA");
     return ResponseEntity
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
