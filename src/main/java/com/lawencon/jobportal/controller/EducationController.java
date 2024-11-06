@@ -29,31 +29,31 @@ import lombok.AllArgsConstructor;
 public class EducationController {
   private final EducationService service;
 
-  @GetMapping(value = "/educations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/users/educations", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<List<EducationResponse>>> getAll() {
     return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
   }
 
-  @GetMapping(value = "/educations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/users/educations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<EducationResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getById(id)));
   }
 
-  @PostMapping(value = "/educations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/users/educations", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> add(
       @Valid @RequestBody CreateEducationRequest request) {
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("Education has been added successfully"));
   }
 
-  @PutMapping(value = "/educations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/users/educations", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> edit(
       @Valid @RequestBody UpdateEducationRequest request) {
     service.update(request);
     return ResponseEntity.ok(ResponseHelper.ok("Education has been Updated successfully"));
   }
 
-  @DeleteMapping(value = "/educations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/users/educations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("Education has been deleted successfully"));
