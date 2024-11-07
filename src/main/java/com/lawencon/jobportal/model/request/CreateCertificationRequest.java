@@ -12,21 +12,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserExperienceRequest {
-  @NotBlankParam(fieldName = "Company Name")
-  private String companyName;
+public class CreateCertificationRequest {
+  @NotBlankParam(fieldName = "name")
+  private String name;
 
-  @NotBlankParam(fieldName = "job_title")
-  private String jobTitle;
+  @NotBlankParam(fieldName = "organization")
+  private String organization;
 
-  @NotNullParam(fieldName = "Start Date")
-  private LocalDate startDate;
-
-  private LocalDate endDate;
-
-  private String responsibilities;
-
-  private String location;
-
+  @NotNullParam(fieldName = "date")
+  private LocalDate date;
 }
 

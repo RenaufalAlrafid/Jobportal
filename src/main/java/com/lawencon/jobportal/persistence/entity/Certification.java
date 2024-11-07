@@ -1,6 +1,5 @@
 package com.lawencon.jobportal.persistence.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -17,31 +16,29 @@ import lombok.ToString;
 
 @SuppressWarnings("deprecation")
 @Entity
-@Table(name = "tb_educations")
+@Table(name = "tb_certifications")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE tb_educations SET deleted_at = now() WHERE id=? AND version =?")
+@SQLDelete(sql = "UPDATE tb_certifications SET deleted_at = now() WHERE id=? AND version =?")
 @Where(clause = "deleted_at IS NULL")
-public class Education extends DeletableEntity {
+public class Certification extends DeletableEntity {
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
     private UserProfile profile;
 
-    @Column(name = "school_name", nullable = false)
-    private String schoolName;
+    @ManyToOne
+    @JoinColumn(name = "file_id", nullable = true)
+    private File file;
 
-    @Column(name = "major", nullable = false)
-    private String major;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "start_date", nullable = false)
-    private LocalDate startDate;
+    @Column(name = "organization", nullable = false)
+    private String organization;
 
-    @Column(name = "end_date", nullable = false)
-    private LocalDate endDate;
-
-    @Column(name = "grade", nullable = false)
-    private BigDecimal grade;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 }

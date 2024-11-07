@@ -26,24 +26,24 @@ import lombok.ToString;
 @Where(clause = "deleted_at IS NULL")
 public class UserExperience extends DeletableEntity {
     @ManyToOne
-    @JoinColumn(name = "profile_id")
+    @JoinColumn(name = "profile_id", nullable = false)
     private UserProfile profile;
 
-    @Column(name = "company_name")
+    @Column(name = "company_name", nullable = false)
     private String companyName;
 
-    @Column(name = "job_title")
+    @Column(name = "job_title", nullable = false)
     private String jobTitle;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = true)
     private LocalDate endDate;
 
-    @Column(name = "responsibilities")
+    @Column(name = "responsibilities", nullable = true)
     private String responsibilities;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = true)
     private String location;
 }

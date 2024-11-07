@@ -25,7 +25,6 @@ public class UpdateUserExperienceRequest {
   @NotNullParam(fieldName = "Start Date")
   private LocalDate startDate;
 
-  @NotNullParam(fieldName = "End Date")
   private LocalDate endDate;
 
   private String responsibilities;
