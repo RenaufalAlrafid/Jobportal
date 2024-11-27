@@ -1,6 +1,7 @@
 package com.lawencon.jobportal.service;
 
 import com.lawencon.jobportal.model.request.CreateUserProfileRequest;
+import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserProfileRequest;
 import com.lawencon.jobportal.model.response.FileResponse;
 import com.lawencon.jobportal.model.response.UserProfileResponse;
@@ -22,4 +23,8 @@ public interface UserProfileService {
   void updateCv(String file);
 
   FileResponse getCv();
+
+  void validationRegister(RegisterUserRequest request);
+
+  UserProfile getByEmail(String email);
 }

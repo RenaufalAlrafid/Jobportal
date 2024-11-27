@@ -29,6 +29,7 @@ import com.lawencon.jobportal.model.request.LoginRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserRequest;
+import com.lawencon.jobportal.model.request.VerifyOtpRequest;
 import com.lawencon.jobportal.model.response.ListUserResponse;
 import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.persistence.entity.Role;
@@ -126,8 +127,16 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    private void validationRegister(RegisterUserRequest request) {
+        if (repository.existsByUsername(request.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
+    }
+
     @Override
     public void create(RegisterUserRequest request) {
+        validationRegister(request);
+        profileService.validationRegister(request);
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -135,12 +144,13 @@ public class UserServiceImpl implements UserService {
         Role role = null;
         if (request.getRoleId() == null) {
             role = roleService.getByCode("CDT");
+            user.setIsActive(false);
         } else {
             SessionHelper.validateRole("SA");
             role = roleService.getEntityById(request.getRoleId());
+            user.setIsActive(true);
         }
         user.setRole(role);
-        user.setIsActive(true);
         user.setVersion(0L);
         user = repository.save(user);
         CreateUserProfileRequest createUserProfileRequest = new CreateUserProfileRequest();
@@ -179,5 +189,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfile getUserProfile() {
         return profileService.getEntityByUser();
+    }
+
+    @Override
+    public void verifyUser(VerifyOtpRequest request) {
+        otpService.otpVerify(request);
+        User user = profileService.getByEmail(request.getEmail()).getUser();
+
+        if (user.getIsActive()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already verified");
+        }
+        user.setIsActive(true);
+        repository.saveAndFlush(user);
     }
 }

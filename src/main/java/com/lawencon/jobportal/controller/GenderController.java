@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class GenderController {
     private final GenderService service;
 
-    @GetMapping(value = "/gender", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/genders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
         return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
     }

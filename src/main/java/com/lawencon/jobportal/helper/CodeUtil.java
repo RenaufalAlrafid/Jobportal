@@ -24,7 +24,7 @@ public class CodeUtil {
 
     StringBuilder result = new StringBuilder(5);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
       int randomIndex = RANDOM.nextInt(ALPHANUMERIC.length());
       result.append(ALPHANUMERIC.charAt(randomIndex));
     }

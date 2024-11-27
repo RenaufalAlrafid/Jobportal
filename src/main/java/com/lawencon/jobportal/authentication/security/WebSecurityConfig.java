@@ -41,8 +41,8 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("api/v1/login", "api/v1/register", "/swagger-ui/**",
-                                "/v3/api-docs/**", "api/v1/gender")
+                        .requestMatchers("api/v1/login", "api/v1/register", "api/v1/users/verify",
+                                "/swagger-ui/**", "/v3/api-docs/**", "api/v1/genders")
                         .permitAll().anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(

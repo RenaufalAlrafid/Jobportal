@@ -7,6 +7,7 @@ import com.lawencon.jobportal.model.request.LoginRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserRequest;
+import com.lawencon.jobportal.model.request.VerifyOtpRequest;
 import com.lawencon.jobportal.model.response.ListUserResponse;
 import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.persistence.entity.User;
@@ -21,5 +22,7 @@ public interface UserService
     UserDetailsService userDetailsService();
 
     UserProfile getUserProfile();
+
+    void verifyUser(VerifyOtpRequest request);
 
 }

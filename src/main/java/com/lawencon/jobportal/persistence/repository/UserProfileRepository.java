@@ -9,4 +9,10 @@ import com.lawencon.jobportal.persistence.entity.UserProfile;
 public interface UserProfileRepository extends JpaRepository<UserProfile, String> {
 
   Optional<UserProfile> findByUserId(String userId);
+
+  Optional<UserProfile> findByEmail(String email);
+
+  Boolean existsByEmail(String email);
+
+  Boolean existsByNik(String nik);
 }

@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Optional<User> userOpt = userService.login(loginRequest);
 
         if (userOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "user is not exist");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username or password wrong");
         }
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

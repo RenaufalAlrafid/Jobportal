@@ -10,6 +10,7 @@ import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.MappingUtil;
 import com.lawencon.jobportal.model.request.CreateFileResponse;
 import com.lawencon.jobportal.model.request.CreateUserProfileRequest;
+import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserProfileRequest;
 import com.lawencon.jobportal.model.response.FileResponse;
 import com.lawencon.jobportal.model.response.UserProfileResponse;
@@ -99,4 +100,26 @@ public class UserProfileServiceImpl implements UserProfileService {
     FileResponse response = fileService.getById(profile.getCvFile().getId());
     return response;
   }
+
+  @Override
+  public void validationRegister(RegisterUserRequest request) {
+    if (repository.existsByEmail(request.getEmail())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+    }
+
+    if (repository.existsByNik(request.getNik())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NIK already exists");
+    }
+  }
+
+  @Override
+  public UserProfile getByEmail(String email) {
+    Optional<UserProfile> profile = repository.findByEmail(email);
+    if (!profile.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User profile not found");
+    }
+    return profile.get();
+  }
+
+
 }
