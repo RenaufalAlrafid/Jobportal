@@ -72,8 +72,7 @@ public class WebResponse<T> {
         private Map<String, Object> metadata;
         private String message;
 
-        WebResponseBuilder() {
-        }
+        WebResponseBuilder() {}
 
         @JsonProperty("code")
         public WebResponseBuilder<T> code(Integer code) {
@@ -124,11 +123,15 @@ public class WebResponse<T> {
         }
 
         public WebResponse<T> build() {
-            return new WebResponse<T>(this.code, this.status, this.column, this.data, this.paging, this.errors, this.metadata, this.message);
+            return new WebResponse<T>(this.code, this.status, this.column, this.data, this.paging,
+                    this.errors, this.metadata, this.message);
         }
 
         public String toString() {
-            return "WebResponse.WebResponseBuilder(code=" + this.code + ", status=" + this.status + ", column=" + this.column + ", data=" + this.data + ", paging=" + this.paging + ", errors=" + this.errors + ", metadata=" + this.metadata + ", message=" + this.message + ")";
+            return "WebResponse.WebResponseBuilder(code=" + this.code + ", status=" + this.status
+                    + ", column=" + this.column + ", data=" + this.data + ", paging=" + this.paging
+                    + ", errors=" + this.errors + ", metadata=" + this.metadata + ", message="
+                    + this.message + ")";
         }
     }
 }

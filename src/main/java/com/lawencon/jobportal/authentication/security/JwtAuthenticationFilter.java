@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -25,11 +26,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        String[] excludedPaths =
-                {"/api/v1/login", "/api/v1/register", "/api/v1/genders", "/api/v1/users/verify"};
+        String[] excludedPaths = {"/api/v1/login", "/api/v1/register", "/api/v1/genders",
+                "/api/v1/users/verify", "/api/v1/users/email/**"
+        };
 
+        AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String excludedPath : excludedPaths) {
-            if (path.equals(excludedPath)) {
+            if (pathMatcher.match(excludedPath, path)) {
                 return true;
             }
         }

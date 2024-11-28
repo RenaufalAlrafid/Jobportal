@@ -27,4 +27,6 @@ public interface UserProfileService {
   void validationRegister(RegisterUserRequest request);
 
   UserProfile getByEmail(String email);
+
+  UserProfile getEntityByUserEntity(User user);
 }

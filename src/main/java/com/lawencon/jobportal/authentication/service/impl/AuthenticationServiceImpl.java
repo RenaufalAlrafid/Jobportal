@@ -33,6 +33,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username or password wrong");
         }
 
+        User user = userOpt.get();
+        if (!user.getIsActive()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "User is not active, please look to your email address to get otp and verify your email to next page");
+        }
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(), loginRequest.getPassword()));
         UserDetails userPrinciple =

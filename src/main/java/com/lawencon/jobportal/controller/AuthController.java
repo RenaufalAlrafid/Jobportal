@@ -2,6 +2,8 @@ package com.lawencon.jobportal.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import com.lawencon.jobportal.model.request.LoginRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.VerifyOtpRequest;
 import com.lawencon.jobportal.model.response.JwtAuthenticationResponse;
+import com.lawencon.jobportal.model.response.UserVerifyResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,6 +49,11 @@ public class AuthController {
         userService.verifyUser(request);
         return ResponseEntity
                 .ok(ResponseHelper.ok(" OTP verification successful. Please proceed with login. "));
+    }
+
+    @GetMapping(value = "/users/email/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebResponse<UserVerifyResponse>> getEmail(@PathVariable String username) {
+        return ResponseEntity.ok(ResponseHelper.ok(userService.getUserForVerify(username)));
     }
 
 

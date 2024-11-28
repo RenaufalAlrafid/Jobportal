@@ -121,5 +121,14 @@ public class UserProfileServiceImpl implements UserProfileService {
     return profile.get();
   }
 
+  @Override
+  public UserProfile getEntityByUserEntity(User user) {
+    Optional<UserProfile> optional = repository.findByUserId(user.getId());
+    if (!optional.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User profile not found");
+    }
+    return optional.get();
+  }
+
 
 }
