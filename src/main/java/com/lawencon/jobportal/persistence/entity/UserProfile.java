@@ -33,6 +33,10 @@ public class UserProfile extends MasterEntity {
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "photo_file_id", nullable = true)
+    private File photo;
+
+    @ManyToOne
     @JoinColumn(name = "gender_id", nullable = false)
     private Gender gender;
 

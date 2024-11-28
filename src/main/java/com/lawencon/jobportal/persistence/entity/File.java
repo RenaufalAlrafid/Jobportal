@@ -20,8 +20,6 @@ import org.hibernate.annotations.Where;
 public class File extends MasterEntity {
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "extension", nullable = false)
-    private String extension;
-    @Column(name = "file", nullable = false)
-    private String file;
+    @Column(name = "url", nullable = false)
+    private String url;
 }

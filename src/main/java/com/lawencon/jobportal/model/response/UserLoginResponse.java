@@ -9,14 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfileResponse {
-  private String id;
-  private String gender;
-  private String email;
-  private String nik;
+public class UserLoginResponse {
+  private String role;
   private String fullName;
-  private String phoneNumber;
-  private String dateOfBirth;
-  private String address;
-  private String city;
+  private String urlPhoto;
+  private String email;
 }

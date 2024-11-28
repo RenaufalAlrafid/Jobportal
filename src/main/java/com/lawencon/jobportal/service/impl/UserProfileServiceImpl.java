@@ -8,10 +8,11 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.MappingUtil;
-import com.lawencon.jobportal.model.request.CreateFileResponse;
+import com.lawencon.jobportal.model.request.CreateFileRequest;
 import com.lawencon.jobportal.model.request.CreateUserProfileRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserProfileRequest;
+import com.lawencon.jobportal.model.request.UploadPhotoRequest;
 import com.lawencon.jobportal.model.response.FileResponse;
 import com.lawencon.jobportal.model.response.UserProfileResponse;
 import com.lawencon.jobportal.persistence.entity.File;
@@ -49,7 +50,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     MappingUtil.map(profile, response);
     response.setGender(profile.getGender().getName());
     response.setDateOfBirth(profile.getDateOfBirth().toString());
-
     return response;
   }
 
@@ -82,12 +82,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
   @Override
   public void updateCv(String baseFile) {
-    CreateFileResponse file = new CreateFileResponse();
+    CreateFileRequest file = new CreateFileRequest();
     UserProfile profile = getEntityByUser();
-    file.setFile(baseFile);
     String name = profile.getFullName() + CodeUtil.generateCode(4, "CV");
     file.setName(name);
-    file.setExtension("pdf");
     File newFile = fileService.create(file);
     profile.setCvFile(newFile);
     profile.setVersion(profile.getVersion() + 1);
@@ -128,6 +126,19 @@ public class UserProfileServiceImpl implements UserProfileService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User profile not found");
     }
     return optional.get();
+  }
+
+  @Override
+  public void uploadFile(UploadPhotoRequest request) {
+    UserProfile profile = getEntityByUser();
+    CreateFileRequest fileRequest = new CreateFileRequest();
+
+    fileRequest.setName(profile.getFullName() + "-photo");
+    fileRequest.setFile(request.getFile());
+    File file = fileService.create(fileRequest);
+    profile.setPhoto(file);
+    profile.setVersion(profile.getVersion() + 1);
+    repository.saveAndFlush(profile);
   }
 
 

@@ -1,16 +1,17 @@
-package com.lawencon.jobportal.model.response;
+package com.lawencon.jobportal.model.request;
 
+
+import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileResponse {
-  private String id;
+public class CreateFileRequest {
   private String name;
-  private String url;
+  private MultipartFile file;
 }

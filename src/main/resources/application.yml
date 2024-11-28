@@ -35,3 +35,8 @@ logging:
         org.springframework.security: TRACE
         org.springframework.validation: DEBUG
         org.springframework.web: DEBUG
+
+discord:
+  webhook:
+    url: https://discord.com/api/webhooks/1311517417624834078/gbiTU9846RyjmQuWE_UNREdMm-HxMOD_6TcGwy-yUJDnPqASuqKGE0UM130epTl51C3d
+

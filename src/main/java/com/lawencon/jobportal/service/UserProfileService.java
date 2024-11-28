@@ -3,6 +3,7 @@ package com.lawencon.jobportal.service;
 import com.lawencon.jobportal.model.request.CreateUserProfileRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserProfileRequest;
+import com.lawencon.jobportal.model.request.UploadPhotoRequest;
 import com.lawencon.jobportal.model.response.FileResponse;
 import com.lawencon.jobportal.model.response.UserProfileResponse;
 import com.lawencon.jobportal.persistence.entity.User;
@@ -29,4 +30,6 @@ public interface UserProfileService {
   UserProfile getByEmail(String email);
 
   UserProfile getEntityByUserEntity(User user);
+
+  void uploadFile(UploadPhotoRequest request);
 }

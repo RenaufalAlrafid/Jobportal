@@ -1,5 +1,6 @@
 package com.lawencon.jobportal.model.request;
 
+import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateFileResponse {
-  private String name;
-  private String extension;
-  private String file;
+public class UploadPhotoRequest {
+  private MultipartFile file;
 }

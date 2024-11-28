@@ -18,6 +18,7 @@ import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserRequest;
 import com.lawencon.jobportal.model.response.ListUserResponse;
+import com.lawencon.jobportal.model.response.UserLoginResponse;
 import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.UserService;
@@ -33,7 +34,7 @@ import lombok.AllArgsConstructor;
 public class UserController {
   private final UserService service;
 
-  @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(
       @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
@@ -42,30 +43,35 @@ public class UserController {
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
-  @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<UserResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
-  @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody RegisterUserRequest request) {
     SessionHelper.validateRole("SA");
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("User has been added successfully"));
   }
 
-  @PutMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateUserRequest request) {
     SessionHelper.validateRole("SA");
     service.update(request);
     return ResponseEntity.ok(ResponseHelper.ok("User has been Updated successfully"));
   }
 
-  @DeleteMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     SessionHelper.validateRole("SA");
     service.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("User has been deleted successfully"));
+  }
+
+  @GetMapping(value = "/users/login", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<WebResponse<UserLoginResponse>> getUserLogin() {
+    return ResponseEntity.ok(ResponseHelper.ok(service.getUserLogin()));
   }
 
 }

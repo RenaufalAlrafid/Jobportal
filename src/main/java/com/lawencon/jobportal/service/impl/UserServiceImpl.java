@@ -31,6 +31,7 @@ import com.lawencon.jobportal.model.request.RegisterUserRequest;
 import com.lawencon.jobportal.model.request.UpdateUserRequest;
 import com.lawencon.jobportal.model.request.VerifyOtpRequest;
 import com.lawencon.jobportal.model.response.ListUserResponse;
+import com.lawencon.jobportal.model.response.UserLoginResponse;
 import com.lawencon.jobportal.model.response.UserResponse;
 import com.lawencon.jobportal.model.response.UserVerifyResponse;
 import com.lawencon.jobportal.persistence.entity.Role;
@@ -219,6 +220,19 @@ public class UserServiceImpl implements UserService {
         UserVerifyResponse response = new UserVerifyResponse();
         UserProfile userProfile = profileService.getEntityByUserEntity(user);
         response.setEmail(userProfile.getEmail());
+        return response;
+    }
+
+    @Override
+    public UserLoginResponse getUserLogin() {
+        UserProfile userProfile = getUserProfile();
+        UserLoginResponse response = new UserLoginResponse();
+        response.setFullName(userProfile.getFullName());
+        response.setEmail(userProfile.getEmail());
+        response.setRole(userProfile.getUser().getRole().getCode());
+        if (userProfile.getPhoto() != null) {
+            response.setUrlPhoto(userProfile.getPhoto().getUrl());
+        }
         return response;
     }
 }
