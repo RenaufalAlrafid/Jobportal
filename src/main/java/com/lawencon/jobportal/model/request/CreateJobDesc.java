@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateJobDesc {
-  private String id;
+  private String JobId;
   private String description;
 }

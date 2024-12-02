@@ -1,7 +1,6 @@
 package com.lawencon.jobportal.service;
 
 import java.util.List;
-import com.lawencon.jobportal.model.request.CreateAppliedRequest;
 import com.lawencon.jobportal.model.request.CreateStageRequest;
 import com.lawencon.jobportal.model.request.UpdateStageRequest;
 import com.lawencon.jobportal.model.response.AppliedResponse;

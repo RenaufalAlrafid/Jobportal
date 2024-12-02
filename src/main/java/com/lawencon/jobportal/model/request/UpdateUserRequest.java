@@ -1,7 +1,7 @@
 package com.lawencon.jobportal.model.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.lawencon.jobportal.validation.annotation.NotBlankParam;
+import com.lawencon.jobportal.validation.annotation.NotNullParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +11,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserRequest extends UpdateRequest {
-  @NotNull(message = "Username cannot be null")
-  @NotBlank(message = "Username cannot be empty")
+public class UpdateUserRequest {
+  @NotBlankParam(fieldName = "username")
   private String username;
 
-  @NotNull(message = "Role cannot be null")
-  @NotBlank(message = "Role cannot be empty")
+  @NotBlankParam(fieldName = "password")
   private String roleId;
 
-  private Boolean isActive;
+  @NotBlankParam(fieldName = "id")
+  private String id;
+
+  @NotNullParam(fieldName = "version")
   private Long version;
+
+  @NotNullParam(fieldName = "isActive")
+  private Boolean isActive;
 
 
 }

@@ -182,6 +182,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(UpdateUserRequest request) {
         User user = getEntityById(request.getId());
+        ValidationUtil.ValidateVersion(user.getVersion(), request.getVersion());
         user.setUsername(request.getUsername());
         user.setIsActive(request.getIsActive());
         Role role = roleService.getEntityById(request.getRoleId());
@@ -201,7 +202,6 @@ public class UserServiceImpl implements UserService {
         }
         user.setVersion(user.getVersion() + 1);
         repository.delete(user);
-        profileService.deleteByUser(user);
     }
 
     @Override

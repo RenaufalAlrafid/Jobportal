@@ -12,4 +12,5 @@ import lombok.Setter;
 public class SpecificationResponse {
   private String id;
   private String specification;
+  private Long version;
 }

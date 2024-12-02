@@ -19,9 +19,7 @@ import com.lawencon.jobportal.model.request.CreateSpecificationRequest;
 import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
-import com.lawencon.jobportal.model.response.DescriptionResponse;
 import com.lawencon.jobportal.model.response.JobResponse;
-import com.lawencon.jobportal.model.response.SpecificationResponse;
 import com.lawencon.jobportal.persistence.entity.Job;
 import com.lawencon.jobportal.persistence.repository.JobRepository;
 import com.lawencon.jobportal.service.JobService;
@@ -60,11 +58,6 @@ public class JobServiceImpl implements JobService {
     response.setName(job.getName());
     response.setVersion(job.getVersion());
     response.setIsActive(job.getIsActive());
-    List<SpecificationResponse> specificationResponses =
-        specificationService.getAllByJobId(job.getId());
-    response.setSpecifications(specificationResponses);
-    List<DescriptionResponse> descriptionResponses = descriptionService.getAllByJobId(job.getId());
-    response.setDescription(descriptionResponses);
     return response;
   }
 
@@ -126,7 +119,7 @@ public class JobServiceImpl implements JobService {
 
   @Override
   public void createSpec(CreateJobSpec request) {
-    Job job = getEntityById(request.getId());
+    Job job = getEntityById(request.getJobId());
     CreateSpecificationRequest spec = new CreateSpecificationRequest();
     spec.setJob(job);
     spec.setSpecification(request.getSpecification());
@@ -135,7 +128,7 @@ public class JobServiceImpl implements JobService {
 
   @Override
   public void createDesc(CreateJobDesc request) {
-    Job job = getEntityById(request.getId());
+    Job job = getEntityById(request.getJobId());
     CreateDescriptionRequest desc = new CreateDescriptionRequest();
     desc.setJob(job);
     desc.setDescription(request.getDescription());

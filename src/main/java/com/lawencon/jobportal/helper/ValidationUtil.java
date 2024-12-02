@@ -28,4 +28,15 @@ public class ValidationUtil {
     return entity.orElseThrow(
         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, entityName + " not found"));
   }
+
+  public static void ValidateVersion(Long versionEntity, Long versionRequest) {
+    if (versionRequest == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Version is required");
+    }
+    if (!versionRequest.equals(versionEntity)) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT,
+          "You cannot send this request!! please reload your data");
+    }
+
+  }
 }

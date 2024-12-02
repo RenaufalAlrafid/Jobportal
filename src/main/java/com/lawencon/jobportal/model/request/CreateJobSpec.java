@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateJobSpec {
   @NotBlankParam(fieldName = "id")
-  private String id;
+  private String jobId;
 
   @NotBlankParam(fieldName = "specification")
   private String specification;

@@ -22,7 +22,9 @@ import com.lawencon.jobportal.model.request.UpdateDescriptionRequest;
 import com.lawencon.jobportal.model.request.UpdateMasterRequest;
 import com.lawencon.jobportal.model.request.UpdateSpecificationRequest;
 import com.lawencon.jobportal.model.response.ConstantResponse;
+import com.lawencon.jobportal.model.response.DescriptionResponse;
 import com.lawencon.jobportal.model.response.JobResponse;
+import com.lawencon.jobportal.model.response.SpecificationResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.DescriptionService;
 import com.lawencon.jobportal.service.JobService;
@@ -42,7 +44,7 @@ public class JobController {
   private final SpecificationService specificationService;
   private final DescriptionService descriptionService;
 
-  @GetMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/jobs", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<List<ConstantResponse>>> getAll(
       @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
@@ -50,40 +52,56 @@ public class JobController {
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
-  @GetMapping(value = "/job/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/jobs/{id}/specs", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA"})
+  public ResponseEntity<WebResponse<List<SpecificationResponse>>> getAllSpec(
+      @Valid PagingRequest pagingRequest, @PathVariable String id) {
+    return ResponseEntity.ok(
+        ResponseHelper.ok(pagingRequest, specificationService.findAllByJobId(id, pagingRequest)));
+  }
+
+  @GetMapping(value = "/jobs/{id}/descs", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA"})
+  public ResponseEntity<WebResponse<List<DescriptionResponse>>> getAllDesc(
+      @Valid PagingRequest pagingRequest, @PathVariable String id) {
+    return ResponseEntity
+        .ok(ResponseHelper.ok(pagingRequest, descriptionService.findAllByJobId(id, pagingRequest)));
+  }
+
+  @GetMapping(value = "/jobs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<JobResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
-  @PostMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/jobs", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateMasterRequest request) {
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("Job has been added successfully"));
   }
 
-  @PutMapping(value = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/jobs", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateMasterRequest request) {
     service.update(request);
     return ResponseEntity.ok(ResponseHelper.ok("Job has been Updated successfully"));
   }
 
-  @DeleteMapping(value = "/job/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/jobs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("Job has been deleted successfully"));
   }
 
-  @PostMapping(value = "/job/spec", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/jobs/spec", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> createSpec(@Valid @RequestBody CreateJobSpec request) {
     service.createSpec(request);
     return ResponseEntity.ok(ResponseHelper.ok("Specification has been added successfully"));
   }
 
-  @PutMapping(value = "/job/spec", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/jobs/spec", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> updateSpec(
       @Valid @RequestBody UpdateSpecificationRequest request) {
@@ -91,21 +109,21 @@ public class JobController {
     return ResponseEntity.ok(ResponseHelper.ok("Specification has been added successfully"));
   }
 
-  @DeleteMapping(value = "/job/spec/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/jobs/spec/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> deleteSpec(@PathVariable String id) {
     specificationService.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("Specification has been deleted successfully"));
   }
 
-  @PostMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/jobs/desc", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<String>> createDesc(@Valid @RequestBody CreateJobDesc request) {
     SessionHelper.validateRole("SA");
     service.createDesc(request);
     return ResponseEntity.ok(ResponseHelper.ok("Description has been added successfully"));
   }
 
-  @PutMapping(value = "/job/desc", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/jobs/desc", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> updateDesc(
       @Valid @RequestBody UpdateDescriptionRequest request) {
@@ -113,7 +131,7 @@ public class JobController {
     return ResponseEntity.ok(ResponseHelper.ok("Description has been added successfully"));
   }
 
-  @DeleteMapping(value = "/job/desc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/jobs/desc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> deleteDesc(@PathVariable String id) {
     descriptionService.delete(id);

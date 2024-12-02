@@ -17,4 +17,5 @@ public class ListUserResponse {
   private String roleId;
   private String email;
   private Boolean isActive;
+  private Long version;
 }

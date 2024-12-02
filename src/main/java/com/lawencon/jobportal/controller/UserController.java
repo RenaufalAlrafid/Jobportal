@@ -58,7 +58,6 @@ public class UserController {
   @PutMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateUserRequest request) {
-    SessionHelper.validateRole("SA");
     service.update(request);
     return ResponseEntity.ok(ResponseHelper.ok("User has been Updated successfully"));
   }

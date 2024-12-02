@@ -12,4 +12,5 @@ import lombok.Setter;
 public class DescriptionResponse {
   private String id;
   private String description;
+  private Long version;
 }
