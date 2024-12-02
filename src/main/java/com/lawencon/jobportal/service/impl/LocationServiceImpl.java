@@ -108,5 +108,19 @@ public class LocationServiceImpl implements LocationService {
     return new PageImpl<>(response, pageRequest, locationResponse.getTotalElements());
   }
 
+  @Override
+  public List<ConstantResponse> getAllLocation() {
+    List<Location> locations = repository.findAllByIsActive(true);
+    return locations.stream().map(location -> {
+      ConstantResponse res = new ConstantResponse();
+      res.setId(location.getId());
+      res.setCode(location.getCode());
+      res.setName(location.getName());
+      res.setVersion(location.getVersion());
+      res.setIsActive(location.getIsActive());
+      return res;
+    }).toList();
+  }
+
 
 }

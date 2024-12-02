@@ -12,12 +12,16 @@ import lombok.Setter;
 public class VacancyResponse {
   private String id;
   private String job;
+  private String jobId;
   private String location;
+  private String locationId;
   private String type;
+  private String typeId;
   private String level;
+  private String levelId;
   private String code;
-  private String salaryStart;
-  private String salaryEnd;
+  private Integer salaryStart;
+  private Integer salaryEnd;
   private String dueDate;
   private String overview;
   private Long version;

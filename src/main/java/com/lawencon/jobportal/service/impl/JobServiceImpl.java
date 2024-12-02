@@ -134,4 +134,18 @@ public class JobServiceImpl implements JobService {
     desc.setDescription(request.getDescription());
     descriptionService.create(desc);
   }
+
+  @Override
+  public List<ConstantResponse> getAllJob() {
+    List<Job> jobList = repository.findAllByIsActive(true);
+    return jobList.stream().map(entity -> {
+      ConstantResponse res = new ConstantResponse();
+      res.setId(entity.getId());
+      res.setCode(entity.getCode());
+      res.setName(entity.getName());
+      res.setVersion(entity.getVersion());
+      res.setIsActive(entity.getIsActive());
+      return res;
+    }).toList();
+  }
 }

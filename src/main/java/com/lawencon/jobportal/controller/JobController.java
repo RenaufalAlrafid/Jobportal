@@ -44,6 +44,12 @@ public class JobController {
   private final SpecificationService specificationService;
   private final DescriptionService descriptionService;
 
+  @GetMapping(value = "/jobs/list", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA"})
+  public ResponseEntity<WebResponse<List<ConstantResponse>>> getAllList() {
+    return ResponseEntity.ok(ResponseHelper.ok(service.getAllJob()));
+  }
+
   @GetMapping(value = "/jobs", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<List<ConstantResponse>>> getAll(

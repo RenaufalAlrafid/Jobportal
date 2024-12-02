@@ -1,5 +1,6 @@
 package com.lawencon.jobportal.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import com.lawencon.jobportal.model.request.CreateJobDesc;
 import com.lawencon.jobportal.model.request.CreateJobSpec;
@@ -17,4 +18,6 @@ public interface JobService
   void createSpec(CreateJobSpec request);
 
   void createDesc(CreateJobDesc request);
+
+  List<ConstantResponse> getAllJob();
 }

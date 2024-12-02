@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class EmploymentTypeController {
     private final EmploymentTypeService service;
 
-    @GetMapping(value = "/employment-type", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/employment-types", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
         return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
     }

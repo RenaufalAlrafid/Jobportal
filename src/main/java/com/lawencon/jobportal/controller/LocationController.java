@@ -39,6 +39,12 @@ public class LocationController {
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
+  @GetMapping(value = "/locations/list", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA"})
+  public ResponseEntity<WebResponse<List<ConstantResponse>>> getAllLocation() {
+    return ResponseEntity.ok(ResponseHelper.ok(service.getAllLocation()));
+  }
+
   @GetMapping(value = "/locations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<ConstantResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));

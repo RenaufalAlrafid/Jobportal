@@ -23,9 +23,9 @@ public class UpdateVacancyRequest {
   private String locationId;
   @NotBlankParam(fieldName = "Level Id")
   private String levelId;
-  @NotBlankParam(fieldName = "Salary Start")
+  @NotNullParam(fieldName = "Salary Start")
   private Integer salaryStart;
-  @NotBlankParam(fieldName = "Salary End")
+  @NotNullParam(fieldName = "Salary End")
   private Integer salaryEnd;
   @NotNullParam(fieldName = "Due Date")
   private LocalDate dueDate;

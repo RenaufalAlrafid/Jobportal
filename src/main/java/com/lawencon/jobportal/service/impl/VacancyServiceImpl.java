@@ -50,9 +50,14 @@ public class VacancyServiceImpl implements VacancyService {
     Vacancy vacancy = getEntityById(id);
     VacancyResponse response = new VacancyResponse();
     response.setJob(vacancy.getJob().getName());
+    response.setJobId(vacancy.getJob().getId());
     response.setLocation(vacancy.getLocation().getName());
+    response.setLocationId(vacancy.getLocation().getId());
     response.setType(vacancy.getType().getName());
+    response.setTypeId(vacancy.getType().getId());
     response.setLevel(vacancy.getLevel().getName());
+    response.setLevelId(vacancy.getLevel().getId());
+    response.setDueDate(vacancy.getDueDate().toString());
     MappingUtil.map(vacancy, response);
     return response;
   }
@@ -85,7 +90,7 @@ public class VacancyServiceImpl implements VacancyService {
     vacancy.setType(type);
     vacancy.setLocation(location);
     vacancy.setLevel(experience);
-    vacancy.setIsActive(true);
+    vacancy.setIsActive(request.getIsActive());
     vacancy.setVersion(vacancy.getVersion() + 1);
     repository.saveAndFlush(vacancy);
   }
@@ -105,7 +110,8 @@ public class VacancyServiceImpl implements VacancyService {
 
     Specification<Vacancy> spec = Specification.where(null);
     if (inquiry != null && !inquiry.isBlank()) {
-      spec = spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("overview"), inquiry));
+      spec = spec.and(SpecificationHelper
+          .inquiryFilter(Arrays.asList("overview", "job.name", "location.name"), inquiry));
     }
     Page<Vacancy> vacancyResponse = repository.findAll(spec, pageRequest);
     List<ListVacancyResponse> responses = vacancyResponse.map(vacancy -> {
@@ -116,6 +122,7 @@ public class VacancyServiceImpl implements VacancyService {
       response.setType(vacancy.getType().getName());
       response.setLevel(vacancy.getLevel().getName());
       response.setCode(vacancy.getCode());
+      response.setIsActive(vacancy.getIsActive());
       return response;
     }).toList();
     return new PageImpl<>(responses, pageRequest, vacancyResponse.getTotalElements());

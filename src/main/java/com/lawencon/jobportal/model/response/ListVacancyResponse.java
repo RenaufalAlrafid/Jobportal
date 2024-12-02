@@ -16,4 +16,5 @@ public class ListVacancyResponse {
   private String type;
   private String level;
   private String code;
+  private Boolean isActive;
 }

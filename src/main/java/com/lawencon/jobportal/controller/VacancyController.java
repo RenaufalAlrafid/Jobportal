@@ -33,7 +33,7 @@ import lombok.AllArgsConstructor;
 public class VacancyController {
   private final VacancyService service;
 
-  @GetMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<List<ListVacancyResponse>>> getAll(
       @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
@@ -41,19 +41,19 @@ public class VacancyController {
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
-  @GetMapping(value = "/vacancy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/vacancies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<VacancyResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
-  @PostMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateVacancyRequest request) {
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("Vacancy has been added successfully"));
   }
 
-  @PutMapping(value = "/vacancy", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> edit(
       @Valid @RequestBody UpdateVacancyRequest request) {
@@ -61,7 +61,7 @@ public class VacancyController {
     return ResponseEntity.ok(ResponseHelper.ok("Vacancy has been Updated successfully"));
   }
 
-  @DeleteMapping(value = "/vacancy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/vacancies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
