@@ -1,11 +1,18 @@
 
 package com.lawencon.jobportal.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.MappingUtil;
+import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.helper.ValidationUtil;
 import com.lawencon.jobportal.model.request.CreateEducationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateEducationRequest;
 import com.lawencon.jobportal.model.response.EducationResponse;
 import com.lawencon.jobportal.persistence.entity.Education;
@@ -61,15 +68,26 @@ public class EducationServiceImpl implements EducationService {
   }
 
   @Override
-  public List<EducationResponse> getAll() {
+  public Page<EducationResponse> getAll(PagingRequest pagingRequest, String inquiry) {
+    PageRequest pageRequest = PageRequest.of(pagingRequest.getPage(), pagingRequest.getPageSize(),
+        SpecificationHelper.createSort(pagingRequest.getSortBy()));
+
+    Specification<Education> spec = Specification.where(null);
+    if (inquiry != null && !inquiry.isBlank()) {
+      spec = spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("name"), inquiry));
+    }
     UserProfile profile = userService.getUserProfile();
-    List<Education> educations = repository.findAllByProfileId(profile.getId());
-    List<EducationResponse> responses = educations.stream().map(education -> {
+    spec =
+        spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("profile.id"), profile.getId()));
+
+    Page<Education> eductions = repository.findAll(spec, pageRequest);
+    List<EducationResponse> responses = eductions.stream().map(userExperience -> {
       EducationResponse response = new EducationResponse();
-      MappingUtil.map(education, response);
-      response.setProfileId(education.getProfile().getId());
+      MappingUtil.map(userExperience, response);
+      response.setProfileId(userExperience.getProfile().getId());
       return response;
     }).toList();
-    return responses;
+    return new PageImpl<>(responses, pageRequest, eductions.getTotalElements());
   }
+
 }

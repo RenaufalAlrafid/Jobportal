@@ -12,4 +12,6 @@ import lombok.Setter;
 public class UserResponse extends DetailResponse {
   private String username;
   private String roleId;
+  private Boolean isActive;
+  private Long version;
 }

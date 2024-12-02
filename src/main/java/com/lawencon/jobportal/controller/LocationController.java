@@ -24,43 +24,42 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-
 @Tag(name = "Location")
 @RestController
-@RequestMapping({"/api/v1"})
+@RequestMapping({ "/api/v1" })
 @AllArgsConstructor
 public class LocationController {
   private final LocationService service;
 
   @GetMapping(value = "/location", produces = MediaType.APPLICATION_JSON_VALUE)
-  @RolesAllowed({"SA"})
+  @RolesAllowed({ "SA" })
   public ResponseEntity<WebResponse<List<ConstantResponse>>> getAll(
       @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
     return ResponseEntity
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
-  @GetMapping(value = "/location/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/locations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<WebResponse<ConstantResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
-  @PostMapping(value = "/location", produces = MediaType.APPLICATION_JSON_VALUE)
-  @RolesAllowed({"SA"})
+  @PostMapping(value = "/locations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({ "SA" })
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody CreateMasterRequest request) {
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("Location has been added successfully"));
   }
 
-  @PutMapping(value = "/location", produces = MediaType.APPLICATION_JSON_VALUE)
-  @RolesAllowed({"SA"})
+  @PutMapping(value = "/locations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({ "SA" })
   public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateMasterRequest request) {
     service.update(request);
     return ResponseEntity.ok(ResponseHelper.ok("Location has been Updated successfully"));
   }
 
-  @DeleteMapping(value = "/location/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @RolesAllowed({"SA"})
+  @DeleteMapping(value = "/locations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({ "SA" })
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     service.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("Location has been deleted successfully"));

@@ -1,7 +1,8 @@
 package com.lawencon.jobportal.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 import com.lawencon.jobportal.model.request.CreateCertificationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateCertificationRequest;
 import com.lawencon.jobportal.model.response.CertificationResponse;
 import com.lawencon.jobportal.persistence.entity.Certification;
@@ -18,6 +19,6 @@ public interface CertificationService {
 
   public void delete(String id);
 
-  public List<CertificationResponse> getAll();
+  public Page<CertificationResponse> getAll(PagingRequest pagingRequest, String inquiry);
 
 }

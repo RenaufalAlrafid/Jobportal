@@ -1,7 +1,8 @@
 package com.lawencon.jobportal.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 import com.lawencon.jobportal.model.request.CreateEducationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateEducationRequest;
 import com.lawencon.jobportal.model.response.EducationResponse;
 import com.lawencon.jobportal.persistence.entity.Education;
@@ -18,6 +19,6 @@ public interface EducationService {
 
   public void delete(String id);
 
-  public List<EducationResponse> getAll();
+  public Page<EducationResponse> getAll(PagingRequest request, String inquiry);
 
 }

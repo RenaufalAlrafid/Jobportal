@@ -1,7 +1,8 @@
 package com.lawencon.jobportal.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 import com.lawencon.jobportal.model.request.CreateUserExperienceRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateUserExperienceRequest;
 import com.lawencon.jobportal.model.response.UserExperienceResponse;
 import com.lawencon.jobportal.persistence.entity.UserExperience;
@@ -18,6 +19,6 @@ public interface UserExperienceService {
 
   public void delete(String id);
 
-  public List<UserExperienceResponse> getAll();
+  public Page<UserExperienceResponse> getAll(PagingRequest pagingRequest, String inquiry);
 
 }

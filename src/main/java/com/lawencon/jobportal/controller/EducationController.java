@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.CreateEducationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateEducationRequest;
 import com.lawencon.jobportal.model.response.EducationResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
@@ -20,7 +22,6 @@ import com.lawencon.jobportal.service.EducationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-
 
 @Tag(name = "Education")
 @RestController
@@ -30,8 +31,10 @@ public class EducationController {
   private final EducationService service;
 
   @GetMapping(value = "/users/educations", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<WebResponse<List<EducationResponse>>> getAll() {
-    return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
+  public ResponseEntity<WebResponse<List<EducationResponse>>> getAll(
+      @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
+    return ResponseEntity
+        .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
   @GetMapping(value = "/users/educations/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

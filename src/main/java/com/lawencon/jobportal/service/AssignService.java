@@ -2,6 +2,7 @@ package com.lawencon.jobportal.service;
 
 import java.util.List;
 import com.lawencon.jobportal.model.request.ChangeStatusAssignRequest;
+import com.lawencon.jobportal.model.request.CreateAppliedRequest;
 import com.lawencon.jobportal.model.request.CreateAssignRequest;
 import com.lawencon.jobportal.model.response.AssignResponse;
 import com.lawencon.jobportal.model.response.File;
@@ -17,5 +18,9 @@ public interface AssignService {
 
   void changeStatus(ChangeStatusAssignRequest request);
 
-  public File getReport() throws JRException;
+  File getReport() throws JRException;
+
+  void CreateApplied(CreateAppliedRequest request);
+
+
 }

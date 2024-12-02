@@ -38,6 +38,8 @@ import com.lawencon.jobportal.persistence.entity.Role;
 import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.entity.UserProfile;
 import com.lawencon.jobportal.persistence.repository.UserRepository;
+import com.lawencon.jobportal.service.AppliedService;
+import com.lawencon.jobportal.service.AssignDetailService;
 import com.lawencon.jobportal.service.EmailService;
 import com.lawencon.jobportal.service.OtpService;
 import com.lawencon.jobportal.service.RoleService;
@@ -55,6 +57,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final OtpService otpService;
+    private final AssignDetailService assignDetailService;
+    private final AppliedService appliedService;
 
     @Override
     public Optional<User> login(LoginRequest request) {
@@ -120,9 +124,14 @@ public class UserServiceImpl implements UserService {
 
         List<ListUserResponse> responses = usersResponse.map(user -> {
             ListUserResponse response = new ListUserResponse();
-            response.setId(user.getId());
-            response.setUsername(user.getUsername());
+            MappingUtil.map(user, response);
             response.setRoleName(user.getRole().getName());
+            response.setRoleId(user.getRole().getId());
+            UserProfile userProfile = profileService.getEntityByUserEntity(user);
+            if (userProfile != null) {
+                response.setEmail(userProfile.getEmail());
+                response.setFullName(userProfile.getFullName());
+            }
             return response;
         }).toList();
         return new PageImpl<>(responses, pageRequest, usersResponse.getTotalElements());
@@ -160,12 +169,13 @@ public class UserServiceImpl implements UserService {
         createUserProfileRequest.setUser(user);
         profileService.create(createUserProfileRequest);
 
-        CreateOtpRequest otp = new CreateOtpRequest();
-        otp.setUser(user);
-        otp.setOtp(CodeUtil.generateOtp());
-        otpService.create(otp);
-
-        emailService.sendHtmlEmail(request.getFullName(), request.getEmail(), otp.getOtp());
+        if (request.getRoleId() == null) {
+            CreateOtpRequest otp = new CreateOtpRequest();
+            otp.setUser(user);
+            otp.setOtp(CodeUtil.generateOtp());
+            otpService.create(otp);
+            emailService.sendHtmlEmail(request.getFullName(), request.getEmail(), otp.getOtp());
+        }
 
     }
 
@@ -183,6 +193,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(String id) {
         User user = getEntityById(id);
+        appliedService.validateUserDelete(id);
+        assignDetailService.validateUserDelete(id);
+        UserProfile profile = profileService.getEntityByUserEntity(user);
+        if (profile != null) {
+            profileService.deleteByUser(user);
+        }
         user.setVersion(user.getVersion() + 1);
         repository.delete(user);
         profileService.deleteByUser(user);

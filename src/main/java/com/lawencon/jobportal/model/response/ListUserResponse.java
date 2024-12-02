@@ -11,6 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ListUserResponse {
   private String id;
+  private String fullName;
   private String username;
   private String roleName;
+  private String roleId;
+  private String email;
+  private Boolean isActive;
 }

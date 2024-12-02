@@ -28,5 +28,5 @@ public class AssignDetail extends DeletableEntity {
         private Assign assign;
         @ManyToOne
         @JoinColumn(name = "pic_id", nullable = false)
-        private User user;
+        private User pic;
 }

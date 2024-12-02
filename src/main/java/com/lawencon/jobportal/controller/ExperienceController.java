@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class ExperienceController {
     private final ExperienceService service;
 
-    @GetMapping(value = "/experience", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/experiences", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebResponse<List<ConstantResponse>>> findAll() {
         return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
     }

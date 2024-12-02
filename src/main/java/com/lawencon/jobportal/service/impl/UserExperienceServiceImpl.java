@@ -1,11 +1,18 @@
 
 package com.lawencon.jobportal.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.MappingUtil;
+import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.helper.ValidationUtil;
 import com.lawencon.jobportal.model.request.CreateUserExperienceRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateUserExperienceRequest;
 import com.lawencon.jobportal.model.response.UserExperienceResponse;
 import com.lawencon.jobportal.persistence.entity.UserExperience;
@@ -61,15 +68,24 @@ public class UserExperienceServiceImpl implements UserExperienceService {
   }
 
   @Override
-  public List<UserExperienceResponse> getAll() {
+  public Page<UserExperienceResponse> getAll(PagingRequest pagingRequest, String inquiry) {
+    PageRequest pageRequest = PageRequest.of(pagingRequest.getPage(), pagingRequest.getPageSize(),
+        SpecificationHelper.createSort(pagingRequest.getSortBy()));
+
+    Specification<UserExperience> spec = Specification.where(null);
+    if (inquiry != null && !inquiry.isBlank()) {
+      spec = spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("name"), inquiry));
+    }
     UserProfile profile = userService.getUserProfile();
-    List<UserExperience> userExperiences = repository.findAllByProfileId(profile.getId());
+    spec =
+        spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("profile.id"), profile.getId()));
+    Page<UserExperience> userExperiences = repository.findAll(spec, pageRequest);
     List<UserExperienceResponse> responses = userExperiences.stream().map(userExperience -> {
       UserExperienceResponse response = new UserExperienceResponse();
       MappingUtil.map(userExperience, response);
       response.setProfileId(userExperience.getProfile().getId());
       return response;
     }).toList();
-    return responses;
+    return new PageImpl<>(responses, pageRequest, userExperiences.getTotalElements());
   }
 }

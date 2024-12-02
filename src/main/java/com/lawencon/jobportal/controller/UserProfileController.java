@@ -54,7 +54,7 @@ public class UserProfileController {
     return ResponseEntity.ok(ResponseHelper.ok("CV has been Updated successfully"));
   }
 
-  @PostMapping(value = "/profiles/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PutMapping(value = "/profiles/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<WebResponse<String>> updatePhoto(
       @ModelAttribute UploadPhotoRequest request) {
     service.uploadFile(request);

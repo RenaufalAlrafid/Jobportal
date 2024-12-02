@@ -20,5 +20,8 @@ public class UpdateUserRequest extends UpdateRequest {
   @NotBlank(message = "Role cannot be empty")
   private String roleId;
 
+  private Boolean isActive;
+  private Long version;
+
 
 }

@@ -38,24 +38,25 @@ public class UserController {
   @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<List<ListUserResponse>>> getAll(
       @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
-    // SessionHelper.validateRole("SA");
     return ResponseEntity
         .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
   @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<UserResponse>> getById(@PathVariable String id) {
     return ResponseEntity.ok(ResponseHelper.ok(service.getByid(id)));
   }
 
   @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+  // @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody RegisterUserRequest request) {
-    SessionHelper.validateRole("SA");
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("User has been added successfully"));
   }
 
   @PutMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<String>> edit(@Valid @RequestBody UpdateUserRequest request) {
     SessionHelper.validateRole("SA");
     service.update(request);
@@ -63,6 +64,7 @@ public class UserController {
   }
 
   @DeleteMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @RolesAllowed({"SA", "HR"})
   public ResponseEntity<WebResponse<String>> delete(@PathVariable String id) {
     SessionHelper.validateRole("SA");
     service.delete(id);

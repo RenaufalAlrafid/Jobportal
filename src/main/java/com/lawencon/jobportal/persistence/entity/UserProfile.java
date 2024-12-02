@@ -57,7 +57,7 @@ public class UserProfile extends MasterEntity {
     private String phoneNumber;
 
     @Column(name = "date_of_birth", nullable = false)
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
     @Column(name = "address", nullable = true)
     private String address;

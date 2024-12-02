@@ -11,12 +11,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserProfileResponse {
   private String id;
+  private String username;
+  private String role;
+  private String genderId;
   private String gender;
   private String email;
   private String nik;
   private String fullName;
   private String phoneNumber;
-  private String dateOfBirth;
+  private String birthDate;
   private String address;
   private String city;
+  private String photoUrl;
+  private Boolean isActive;
+  private Long version;
 }

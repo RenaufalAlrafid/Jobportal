@@ -18,6 +18,7 @@ import com.lawencon.jobportal.model.response.AppliedResponse;
 import com.lawencon.jobportal.model.response.ListAppliedResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
 import com.lawencon.jobportal.service.AppliedService;
+import com.lawencon.jobportal.service.AssignService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -31,12 +32,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AppliedController {
   private final AppliedService service;
+  private final AssignService assignService;
 
   @PostMapping(value = "/applied", produces = MediaType.APPLICATION_JSON_VALUE)
   @RolesAllowed({"CDT"})
   public ResponseEntity<WebResponse<String>> create(
       @Valid @RequestBody CreateAppliedRequest request) {
-    service.create(request);
+    assignService.CreateApplied(request);
     return ResponseEntity.ok(ResponseHelper.ok("Applied has been added successfully"));
   }
 

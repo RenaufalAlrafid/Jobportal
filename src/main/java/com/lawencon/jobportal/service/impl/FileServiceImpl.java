@@ -45,11 +45,14 @@ public class FileServiceImpl implements FileService {
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   private String uploadToDiscord(MultipartFile file) {
+    final long MAX_FILE_SIZE = 25 * 1024 * 1024;
+    if (file.getSize() > MAX_FILE_SIZE) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File size must not exceed 25 MB");
+    }
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-      // Create a ByteArrayResource to hold the file's content
       MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
       body.add("file", new ByteArrayResource(file.getBytes()) {
         @Override

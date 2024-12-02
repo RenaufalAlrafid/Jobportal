@@ -35,7 +35,7 @@ public class UserProfileServiceImpl implements UserProfileService {
   public void create(CreateUserProfileRequest request) {
     UserProfile profile = new UserProfile();
     MappingUtil.map(request, profile);
-    profile.setDateOfBirth(LocalDate.parse(request.getBirthDate()));
+    profile.setBirthDate(LocalDate.parse(request.getBirthDate()));
     profile.setUser(request.getUser());
     profile.setGender(genderService.getEntityById(request.getGenderId()));
     profile.setIsActive(true);
@@ -49,19 +49,27 @@ public class UserProfileServiceImpl implements UserProfileService {
     UserProfileResponse response = new UserProfileResponse();
     MappingUtil.map(profile, response);
     response.setGender(profile.getGender().getName());
-    response.setDateOfBirth(profile.getDateOfBirth().toString());
+    response.setGenderId(profile.getGender().getId());
+    response.setBirthDate(profile.getBirthDate().toString());
+    if (profile.getPhoto() != null) {
+      response.setPhotoUrl(profile.getPhoto().getUrl());
+    }
+    response.setUsername(profile.getUser().getUsername());
+    response.setRole(profile.getUser().getRole().getName());
     return response;
   }
 
   @Override
   public void update(UpdateUserProfileRequest request) {
+
     UserProfile profile = getEntityByUser();
     MappingUtil.map(request, profile);
-    profile.setDateOfBirth(LocalDate.parse(request.getBirthDate()));
+    profile.setBirthDate(LocalDate.parse(request.getBirthDate()));
     profile.setGender(genderService.getEntityById(request.getGenderId()));
     profile.setVersion(profile.getVersion() + 1);
     profile.setIsActive(true);
     repository.saveAndFlush(profile);
+
   }
 
   @Override

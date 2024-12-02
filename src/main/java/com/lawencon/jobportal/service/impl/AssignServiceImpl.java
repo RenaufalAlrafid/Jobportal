@@ -12,6 +12,7 @@ import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.ValidationUtil;
 import com.lawencon.jobportal.model.request.AssignReportRequest;
 import com.lawencon.jobportal.model.request.ChangeStatusAssignRequest;
+import com.lawencon.jobportal.model.request.CreateAppliedRequest;
 import com.lawencon.jobportal.model.request.CreateAssignRequest;
 import com.lawencon.jobportal.model.request.CreateNotificationRequest;
 import com.lawencon.jobportal.model.response.AssignResponse;
@@ -23,6 +24,7 @@ import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.entity.Vacancy;
 import com.lawencon.jobportal.persistence.entity.VacancyTrx;
 import com.lawencon.jobportal.persistence.repository.AssignRepository;
+import com.lawencon.jobportal.service.AppliedService;
 import com.lawencon.jobportal.service.AssignDetailService;
 import com.lawencon.jobportal.service.AssignService;
 import com.lawencon.jobportal.service.StatusService;
@@ -48,6 +50,7 @@ public class AssignServiceImpl implements AssignService {
   private final StatusService statusService;
   private final VacancyTrxService vacancyTrxService;
   private final RabbitTemplate rabbitTemplate;
+  private final AppliedService appliedService;
 
   @Override
   public void create(CreateAssignRequest request) {
@@ -60,7 +63,7 @@ public class AssignServiceImpl implements AssignService {
     AssignDetail detail = new AssignDetail();
     detail.setAssign(assign);
     User user = userService.getEntityById(request.getPicId());
-    detail.setUser(user);
+    detail.setPic(user);
     detail.setVersion(0L);
     assignDetailService.create(detail);
 
@@ -148,6 +151,12 @@ public class AssignServiceImpl implements AssignService {
     byte[] bytes = JasperExportManager.exportReportToPdf(print);
     file.setData(bytes);
     return file;
+  }
+
+  @Override
+  public void CreateApplied(CreateAppliedRequest request) {
+    Assign assign = getEntityById(request.getAssignId());
+    appliedService.create(assign);
   }
 
 }

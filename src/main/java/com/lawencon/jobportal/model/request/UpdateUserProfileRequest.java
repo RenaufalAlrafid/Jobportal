@@ -1,6 +1,7 @@
 package com.lawencon.jobportal.model.request;
 
 import com.lawencon.jobportal.validation.annotation.NotBlankParam;
+import com.lawencon.jobportal.validation.annotation.NotNullParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,9 @@ public class UpdateUserProfileRequest {
   private String phoneNumber;
   private String city;
 
-  @NotBlankParam(fieldName = "version")
+  @NotNullParam(fieldName = "version")
   private Long version;
 
-  @NotBlankParam(fieldName = "is active")
+  @NotNullParam(fieldName = "is active")
   private Boolean isActive;
 }

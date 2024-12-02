@@ -1,6 +1,8 @@
 package com.lawencon.jobportal.helper;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 public class MappingUtil {
@@ -24,4 +26,17 @@ public class MappingUtil {
     }
     return responseList;
   }
+
+  public static void validateVersion(Long requestVersion, Long entityVersion, String entityName) {
+    if (requestVersion == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          entityName + " version is required");
+    }
+
+    if (!requestVersion.equals(entityVersion)) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT,
+          " You cannot send this request!! please reload your data");
+    }
+  }
+
 }

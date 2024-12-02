@@ -2,11 +2,13 @@ package com.lawencon.jobportal.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import com.lawencon.jobportal.authentication.helper.SessionHelper;
 import com.lawencon.jobportal.helper.CodeUtil;
 import com.lawencon.jobportal.helper.ValidationUtil;
-import com.lawencon.jobportal.model.request.CreateAppliedRequest;
 import com.lawencon.jobportal.model.request.CreateStageRequest;
 import com.lawencon.jobportal.model.request.UpdateStageRequest;
 import com.lawencon.jobportal.model.response.AppliedResponse;
@@ -20,7 +22,6 @@ import com.lawencon.jobportal.persistence.entity.Status;
 import com.lawencon.jobportal.persistence.entity.User;
 import com.lawencon.jobportal.persistence.repository.AppliedRepository;
 import com.lawencon.jobportal.service.AppliedService;
-import com.lawencon.jobportal.service.AssignService;
 import com.lawencon.jobportal.service.StageService;
 import com.lawencon.jobportal.service.StageTrxService;
 import com.lawencon.jobportal.service.StatusService;
@@ -30,15 +31,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AppliedServiceImpl implements AppliedService {
   private final AppliedRepository repository;
-  private final AssignService assignService;
+  // private final AssignService assignService;
   private final StageService stageService;
   private final StatusService statusService;
   private final StageTrxService trxService;
 
   @Override
-  public void create(CreateAppliedRequest data) {
+  public void create(Assign assign) {
     User user = SessionHelper.getLoginUser();
-    Assign assign = assignService.getEntityById(data.getAssignId());
     Applied applied = new Applied();
     applied.setUser(user);
     applied.setAssign(assign);
@@ -108,5 +108,14 @@ public class AppliedServiceImpl implements AppliedService {
     }).toList();
     response.setStages(stageResponses);
     return response;
+  }
+
+  @Override
+  public void validateUserDelete(String userId) {
+    Optional<Applied> applied = repository.findByUserId(userId);
+    if (applied.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "User cannot be deleted because data user is already use in Applied Database");
+    }
   }
 }

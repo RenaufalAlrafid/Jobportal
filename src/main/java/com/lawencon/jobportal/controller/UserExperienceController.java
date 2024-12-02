@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.CreateUserExperienceRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateUserExperienceRequest;
 import com.lawencon.jobportal.model.response.UserExperienceResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
@@ -30,8 +32,10 @@ public class UserExperienceController {
   private final UserExperienceService service;
 
   @GetMapping(value = "/users/experiences", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<WebResponse<List<UserExperienceResponse>>> getAll() {
-    return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
+  public ResponseEntity<WebResponse<List<UserExperienceResponse>>> getAll(
+      @Valid PagingRequest pagingRequest, @RequestParam(required = false) String inquiry) {
+    return ResponseEntity
+        .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
   @GetMapping(value = "/users/experiences/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,5 +62,4 @@ public class UserExperienceController {
     service.delete(id);
     return ResponseEntity.ok(ResponseHelper.ok("User Experience has been deleted successfully"));
   }
-
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.lawencon.jobportal.helper.ResponseHelper;
 import com.lawencon.jobportal.model.request.CreateCertificationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateCertificationRequest;
 import com.lawencon.jobportal.model.response.CertificationResponse;
 import com.lawencon.jobportal.model.response.WebResponse;
@@ -30,8 +31,10 @@ public class CertificationController {
   private final CertificationService service;
 
   @GetMapping(value = "/users/certifications", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<WebResponse<List<CertificationResponse>>> getAll() {
-    return ResponseEntity.ok(ResponseHelper.ok(service.getAll()));
+  public ResponseEntity<WebResponse<List<CertificationResponse>>> getAll(
+      PagingRequest pagingRequest, String inquiry) {
+    return ResponseEntity
+        .ok(ResponseHelper.ok(pagingRequest, service.getAll(pagingRequest, inquiry)));
   }
 
   @GetMapping(value = "/users/certifications/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

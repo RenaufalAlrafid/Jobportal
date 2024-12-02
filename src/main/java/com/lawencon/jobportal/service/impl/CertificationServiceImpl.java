@@ -1,11 +1,18 @@
 
 package com.lawencon.jobportal.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.lawencon.jobportal.helper.MappingUtil;
+import com.lawencon.jobportal.helper.SpecificationHelper;
 import com.lawencon.jobportal.helper.ValidationUtil;
 import com.lawencon.jobportal.model.request.CreateCertificationRequest;
+import com.lawencon.jobportal.model.request.PagingRequest;
 import com.lawencon.jobportal.model.request.UpdateCertificationRequest;
 import com.lawencon.jobportal.model.response.CertificationResponse;
 import com.lawencon.jobportal.persistence.entity.Certification;
@@ -61,15 +68,27 @@ public class CertificationServiceImpl implements CertificationService {
   }
 
   @Override
-  public List<CertificationResponse> getAll() {
+  public Page<CertificationResponse> getAll(PagingRequest pagingRequest, String inquiry) {
+    PageRequest pageRequest = PageRequest.of(pagingRequest.getPage(), pagingRequest.getPageSize(),
+        SpecificationHelper.createSort(pagingRequest.getSortBy()));
+
+    Specification<Certification> spec = Specification.where(null);
+    if (inquiry != null && !inquiry.isBlank()) {
+      spec = spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("name"), inquiry));
+    }
     UserProfile profile = userService.getUserProfile();
-    List<Certification> certifications = repository.findAllByProfileId(profile.getId());
-    List<CertificationResponse> responses = certifications.stream().map(certification -> {
+    spec =
+        spec.and(SpecificationHelper.inquiryFilter(Arrays.asList("profile.id"), profile.getId()));
+
+    Page<Certification> certifications = repository.findAll(spec, pageRequest);
+    List<CertificationResponse> responses = certifications.stream().map(userExperience -> {
       CertificationResponse response = new CertificationResponse();
-      MappingUtil.map(certification, response);
-      response.setProfileId(certification.getProfile().getId());
+      MappingUtil.map(userExperience, response);
+      response.setProfileId(userExperience.getProfile().getId());
       return response;
     }).toList();
-    return responses;
+    return new PageImpl<>(responses, pageRequest, certifications.getTotalElements());
   }
+
+
 }
