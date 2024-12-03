@@ -49,7 +49,6 @@ public class UserController {
   }
 
   @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-  // @RolesAllowed({"SA"})
   public ResponseEntity<WebResponse<String>> add(@Valid @RequestBody RegisterUserRequest request) {
     service.create(request);
     return ResponseEntity.ok(ResponseHelper.ok("User has been added successfully"));

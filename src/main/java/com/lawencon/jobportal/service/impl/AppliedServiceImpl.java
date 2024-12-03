@@ -31,7 +31,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AppliedServiceImpl implements AppliedService {
   private final AppliedRepository repository;
-  // private final AssignService assignService;
   private final StageService stageService;
   private final StatusService statusService;
   private final StageTrxService trxService;

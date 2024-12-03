@@ -51,14 +51,4 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 
-  // @ExceptionHandler(AuthorizationDeniedException.class)
-  // public ResponseEntity<WebResponse<Object>> handleAuthorizationDenied(HttpServletRequest
-  // request,
-  // AuthorizationDeniedException ex) {
-  // String message = "Access Denied: " + ex.getMessage();
-  // WebResponse<Object> errorResponse = WebResponse.builder().code(HttpStatus.FORBIDDEN.value())
-  // .status(HttpStatus.FORBIDDEN.getReasonPhrase()).message(message).build();
-
-  // return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
-  // }
 }
